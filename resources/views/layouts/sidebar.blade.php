@@ -71,7 +71,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                 d="M4 7V4h3M17 4h3v3M20 17v3h-3M7 20H4v-3M8 8h8v8H8z"/>
             </svg>
-            Scan Barcode
+            Scan QR Code
         </a>
 
         @if(auth()->user()->role === 'admin')

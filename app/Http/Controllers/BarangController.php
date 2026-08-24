@@ -303,7 +303,7 @@ class BarangController extends Controller
         }
     }
 
-    // Halaman scan barcode (kamera)
+    // Halaman scan QR code (kamera)
     public function scan()
     {
         return view('barang.scan');
