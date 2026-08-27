@@ -432,6 +432,15 @@
         </div>
     </div>
 
+    @if(session('success'))
+        <div style="margin-bottom:16px;padding:12px 16px;border-radius:8px;background:#e8f5e9;color:#256028;border-left:4px solid var(--success);font-size:13px;">{{ session('success') }}</div>
+    @endif
+    @if(session('error') || $errors->any())
+        <div style="margin-bottom:16px;padding:12px 16px;border-radius:8px;background:#ffebee;color:#b71c1c;border-left:4px solid var(--danger);font-size:13px;">
+            {{ session('error') ?? $errors->first() }}
+        </div>
+    @endif
+
     <div class="table-card">
         <table>
             <thead>
@@ -440,6 +449,7 @@
                     <th>Nama Barang</th>
                     <th>Jumlah</th>
                     <th>Tgl Pengajuan</th>
+                    <th>Tgl Rencana Pinjam</th>
                     <th>Tgl Rencana Kembali</th>
                     <th>Status</th>
                     <th>Keterangan</th>
@@ -458,6 +468,7 @@
                         </td>
                         <td>{{ $r->jumlah_pinjam }}</td>
                         <td><strong>{{ optional($r->tanggal_pengajuan)->format('d/m/Y') }}</strong></td>
+                        <td><strong>{{ optional($r->tanggal_pinjam_rencana)->locale('id')->isoFormat('D MMMM Y') ?? '-' }}</strong></td>
                         <td><strong>{{ optional($r->tanggal_kembali_rencana)->format('d/m/Y') }}</strong></td>
                         <td>
                             @php
@@ -475,12 +486,33 @@
                             {{ $r->status === 'Ditolak' ? $r->keterangan_penolakan : ($r->keterangan ?? '-') }}
                         </td>
                         <td>
+                            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                                <a href="{{ route('peminjam.peminjaman.surat-permohonan', $r->id) }}" class="btn btn-info">
+                                    <i class="fas fa-file-signature"></i> Surat Permohonan
+                                </a>
+                                @if($r->file_permohonan_ttd)
+                                    <a href="{{ Storage::disk('public')->url($r->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary">
+                                        <i class="fas fa-check"></i> Permohonan TTD
+                                    </a>
+                                @else
+                                    <form action="{{ route('peminjam.peminjaman.surat-permohonan-ttd.upload', $r->id) }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="file" name="file_permohonan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
+                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD</button>
+                                    </form>
+                                @endif
+                            </div>
                             @if(in_array($r->status, ['Disetujui', 'Dipinjam']))
-                                <div>
+                                <div style="margin-top:6px;">
                                     <a href="{{ route('peminjam.peminjaman.surat', $r->id) }}" class="btn btn-info">
                                         <i class="fas fa-file-alt"></i>
                                         Surat Peminjaman
                                     </a>
+                                    @if($r->file_persetujuan_ttd)
+                                        <a href="{{ route('peminjam.peminjaman.surat-persetujuan-ttd', $r->id) }}" target="_blank" class="btn btn-secondary">
+                                            <i class="fas fa-check"></i> Persetujuan TTD
+                                        </a>
+                                    @endif
                                 </div>
                             @endif
                         </td>
@@ -523,7 +555,7 @@
                     @endif
                 @empty
                     <tr>
-                        <td colspan="7" class="empty-state">Belum ada riwayat peminjaman.</td>
+                        <td colspan="9" class="empty-state">Belum ada riwayat peminjaman.</td>
                     </tr>
                 @endforelse
             </tbody>

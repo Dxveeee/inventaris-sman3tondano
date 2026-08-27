@@ -217,11 +217,11 @@
                     </li>
                     <li>
                         <span class="detail-label">Tanggal Pinjam</span>
-                        <span class="detail-value">{{ optional($peminjaman->tanggal_pengajuan)->format('d/m/Y') ?? '-' }}</span>
+                        <span class="detail-value">{{ optional($peminjaman->tanggal_pinjam_rencana)->locale('id')->isoFormat('D MMMM Y') ?? '-' }}</span>
                     </li>
                     <li>
                         <span class="detail-label">Rencana Kembali</span>
-                        <span class="detail-value">{{ optional($peminjaman->tanggal_kembali_rencana)->format('d/m/Y') ?? '-' }}</span>
+                        <span class="detail-value">{{ optional($peminjaman->tanggal_kembali_rencana)->locale('id')->isoFormat('D MMMM Y') ?? '-' }}</span>
                     </li>
                     <li>
                         <span class="detail-label">Status</span>

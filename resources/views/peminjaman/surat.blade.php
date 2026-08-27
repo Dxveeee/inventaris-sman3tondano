@@ -130,7 +130,7 @@
             <tr>
                 <td class="label">Tanggal Pinjam</td>
                 <td class="colon">:</td>
-                <td>{{ \Carbon\Carbon::parse($peminjaman->tanggal_disetujui)->locale('id')->isoFormat('D MMMM Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($peminjaman->tanggal_pinjam_rencana ?? $peminjaman->tanggal_disetujui)->locale('id')->isoFormat('D MMMM Y') }}</td>
             </tr>
             <tr>
                 <td class="label">Tanggal Rencana Kembali</td>

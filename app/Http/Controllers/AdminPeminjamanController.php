@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Peminjaman;
 use App\Models\Barang;
@@ -227,5 +228,37 @@ class AdminPeminjamanController extends Controller
         $filename = 'SPB-SMAN3TONDANO-' . $namaPeminjam . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    public function lihatSuratPermohonan(string $id)
+    {
+        $peminjaman = Peminjaman::with(['peminjam', 'lokasi', 'detail.barang'])->findOrFail($id);
+
+        if ($peminjaman->file_permohonan_ttd) {
+            return redirect(Storage::disk('public')->url($peminjaman->file_permohonan_ttd));
+        }
+
+        $pdf = Pdf::loadView('peminjaman.permohonan', compact('peminjaman'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Permohonan-Peminjaman-' . Str::slug($peminjaman->peminjam->name ?? 'peminjam') . '.pdf');
+    }
+
+    public function uploadSuratPersetujuanTtd(Request $request, string $id)
+    {
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        if (!in_array($peminjaman->status, ['Disetujui', 'Dipinjam'])) {
+            return back()->with('error', 'Surat persetujuan hanya dapat diupload saat status Disetujui atau Dipinjam.');
+        }
+
+        $request->validate([
+            'file_persetujuan_ttd' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+
+        $path = $request->file('file_persetujuan_ttd')->store('surat_persetujuan_ttd', 'public');
+        $peminjaman->update(['file_persetujuan_ttd' => $path]);
+
+        return back()->with('success', 'Surat persetujuan bertanda tangan berhasil diupload.');
     }
 }

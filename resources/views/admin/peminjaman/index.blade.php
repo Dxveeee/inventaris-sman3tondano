@@ -621,6 +621,7 @@
                                     <th>Barang</th>
                                     <th>Jumlah</th>
                                     <th>Tanggal Pengajuan</th>
+                                    <th>Rencana Pinjam</th>
                                     <th>Rencana Kembali</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
@@ -641,6 +642,7 @@
                                         </td>
                                         <td>{{ $record->jumlah_pinjam }}</td>
                                         <td><strong>{{ optional($record->tanggal_pengajuan)->format('d/m/Y') ?? '-' }}</strong></td>
+                                        <td><strong>{{ optional($record->tanggal_pinjam_rencana)->locale('id')->isoFormat('D MMMM Y') ?? '-' }}</strong></td>
                                         <td><strong>{{ optional($record->tanggal_kembali_rencana)->format('d/m/Y') ?? '-' }}</strong></td>
                                         <td>{{ $record->keterangan ?? '-' }}</td>
                                         <td>
@@ -657,6 +659,7 @@
                                         <td>
                                             <div class="actions">
                                                 @if($record->status === 'Menunggu')
+                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-primary">Lihat Surat Permohonan</a>
                                                     <form action="{{ route('admin.peminjaman.approve', $record->id) }}" method="POST">
                                                         @csrf
                                                         <button type="submit" class="btn btn-success">Setujui</button>
@@ -667,6 +670,7 @@
                                                         <textarea name="keterangan_penolakan" placeholder="Alasan penolakan (opsional)"></textarea>
                                                     </form>
                                                 @elseif($record->status === 'Disetujui')
+                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-primary">Lihat Surat Permohonan</a>
                                                     <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn" style="background:var(--info);color:#fff;font-size:13px;padding:6px; 12px;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-right:6px;justify-content:center;">
                                                         <i class="fas fa-file-alt" style="margin-right: 6px;"></i>
                                                         Cetak Surat
@@ -675,7 +679,24 @@
                                                         @csrf
                                                         <button type="submit" class="btn btn-warning">Proses Pinjam</button>
                                                     </form>
+                                                    <form action="{{ route('admin.peminjaman.surat-persetujuan-ttd.upload', $record->id) }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="file" name="file_persetujuan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
+                                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD Persetujuan</button>
+                                                    </form>
+                                                    @if($record->file_persetujuan_ttd)
+                                                        <a href="{{ Storage::disk('public')->url($record->file_persetujuan_ttd) }}" target="_blank" class="btn btn-secondary"><i class="fas fa-check"></i> Lihat TTD</a>
+                                                    @endif
                                                 @elseif($record->status === 'Dipinjam')
+                                                    <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn btn-primary">Download Surat Persetujuan</a>
+                                                    <form action="{{ route('admin.peminjaman.surat-persetujuan-ttd.upload', $record->id) }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <input type="file" name="file_persetujuan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
+                                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD Persetujuan</button>
+                                                    </form>
+                                                    @if($record->file_persetujuan_ttd)
+                                                        <a href="{{ Storage::disk('public')->url($record->file_persetujuan_ttd) }}" target="_blank" class="btn btn-secondary"><i class="fas fa-check"></i> Lihat TTD</a>
+                                                    @endif
                                                     <a href="{{ route('admin.peminjaman.return.form', $record->id) }}" class="btn btn-primary">Proses Kembali</a>
                                                 @else
                                                     <span class="small-note">Tidak ada aksi</span>

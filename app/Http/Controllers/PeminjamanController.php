@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use App\Models\Peminjaman;
@@ -142,7 +143,8 @@ class PeminjamanController extends Controller
         $request->validate([
             'unit_ids' => 'required|array|min:1',
             'unit_ids.*' => 'exists:barang,id',
-            'tanggal_kembali_rencana' => 'required|date|after:today',
+            'tanggal_pinjam_rencana' => 'required|date|after_or_equal:today',
+            'tanggal_kembali_rencana' => 'required|date|after_or_equal:tanggal_pinjam_rencana',
             'keterangan' => 'nullable|string|max:500',
         ]);
 
@@ -165,6 +167,7 @@ class PeminjamanController extends Controller
                 'id_lokasi' => $firstUnit->id_lokasi,
                 'jumlah_pinjam' => $units->count(),
                 'tanggal_pengajuan' => Carbon::today()->toDateString(),
+                'tanggal_pinjam_rencana' => $request->tanggal_pinjam_rencana,
                 'tanggal_kembali_rencana' => $request->tanggal_kembali_rencana,
                 'keterangan' => $request->keterangan,
                 'status' => 'Menunggu',
@@ -248,5 +251,52 @@ class PeminjamanController extends Controller
         $filename = 'SPB-SMAN3TONDANO-' . $namaPeminjam . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    public function downloadSuratPermohonan(string $id)
+    {
+        $peminjaman = Peminjaman::with(['peminjam', 'lokasi', 'detail.barang'])->findOrFail($id);
+
+        if ($peminjaman->id_pengguna !== auth()->id()) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $pdf = Pdf::loadView('peminjaman.permohonan', compact('peminjaman'))
+            ->setPaper('a4', 'portrait');
+
+        $namaPeminjam = Str::slug($peminjaman->peminjam->name ?? 'peminjam');
+
+        return $pdf->download('Permohonan-Peminjaman-' . $namaPeminjam . '.pdf');
+    }
+
+    public function uploadSuratPermohonanTtd(Request $request, string $id)
+    {
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        if ($peminjaman->id_pengguna !== auth()->id()) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        $request->validate([
+            'file_permohonan_ttd' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ]);
+
+        $path = $request->file('file_permohonan_ttd')->store('surat_permohonan_ttd', 'public');
+        $peminjaman->update(['file_permohonan_ttd' => $path]);
+
+        return back()->with('success', 'Surat permohonan bertanda tangan berhasil diupload.');
+    }
+
+    public function downloadSuratPersetujuanTtd(string $id)
+    {
+        $peminjaman = Peminjaman::findOrFail($id);
+
+        if ($peminjaman->id_pengguna !== auth()->id()) {
+            abort(403, 'Akses tidak diizinkan.');
+        }
+
+        abort_unless($peminjaman->file_persetujuan_ttd, 404);
+
+        return redirect(Storage::disk('public')->url($peminjaman->file_persetujuan_ttd));
     }
 }

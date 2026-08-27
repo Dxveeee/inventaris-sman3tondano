@@ -17,18 +17,22 @@ class Peminjaman extends Model
         'id_lokasi',
         'jumlah_pinjam',
         'tanggal_pengajuan',
+        'tanggal_pinjam_rencana',
         'tanggal_disetujui',
         'tanggal_kembali_rencana',
         'tanggal_kembali_aktual',
         'kondisi_kembali',
         'status',
         'nomor_surat',
+        'file_permohonan_ttd',
+        'file_persetujuan_ttd',
         'keterangan_penolakan',
         'keterangan',
     ];
 
     protected $casts = [
         'tanggal_pengajuan' => 'date',
+        'tanggal_pinjam_rencana' => 'date',
         'tanggal_disetujui' => 'date',
         'tanggal_kembali_rencana' => 'date',
         'tanggal_kembali_aktual' => 'date',

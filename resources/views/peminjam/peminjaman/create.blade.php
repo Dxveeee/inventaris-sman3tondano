@@ -71,6 +71,7 @@
         .btn-secondary { background: var(--primary-l); color: #fff; text-decoration: none; justify-content: center; display: inline-flex; align-items: center; padding: 12px 18px; border-radius: 12px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; }
         .form-note { color: var(--muted); font-size: 12px; margin-top: 8px; }
         .button-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+        .date-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
         .kondisi-badge { display: inline-block; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: 600; color: #fff; }
         .kondisi-badge.baik { background: var(--success); }
         .kondisi-badge.rusak_ringan { background: var(--warning); }
@@ -336,10 +337,17 @@
             @endforeach
             <input type="hidden" name="nama_barang" value="{{ $namaBarang }}">
             <input type="hidden" name="id_lokasi" value="{{ $id_lokasi }}">
-            <div class="form-group">
-                <label class="form-label" for="tanggal_kembali_rencana">Tanggal Rencana Kembali *</label>
-                <input class="form-control" type="date" name="tanggal_kembali_rencana" id="tanggal_kembali_rencana" min="{{ now()->addDay()->toDateString() }}" value="{{ old('tanggal_kembali_rencana') }}" required>
-                @error('tanggal_kembali_rencana')<p class="error-text">{{ $message }}</p>@enderror
+            <div class="date-grid">
+                <div class="form-group">
+                    <label class="form-label" for="tanggal_pinjam_rencana">Tanggal Rencana Pinjam *</label>
+                    <input class="form-control" type="date" name="tanggal_pinjam_rencana" id="tanggal_pinjam_rencana" min="{{ now()->toDateString() }}" value="{{ old('tanggal_pinjam_rencana', now()->toDateString()) }}" required>
+                    @error('tanggal_pinjam_rencana')<p class="error-text">{{ $message }}</p>@enderror
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="tanggal_kembali_rencana">Tanggal Rencana Kembali *</label>
+                    <input class="form-control" type="date" name="tanggal_kembali_rencana" id="tanggal_kembali_rencana" min="{{ old('tanggal_pinjam_rencana', now()->toDateString()) }}" value="{{ old('tanggal_kembali_rencana') }}" required>
+                    @error('tanggal_kembali_rencana')<p class="error-text">{{ $message }}</p>@enderror
+                </div>
             </div>
             <div class="form-group">
                 <label class="form-label" for="keterangan">Keterangan / Keperluan</label>

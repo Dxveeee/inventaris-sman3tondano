@@ -124,6 +124,10 @@ Route::middleware(['auth', 'role:admin,kepala_sekolah'])->group(function () {
         ->name('admin.peminjaman.dipinjam');
     Route::get('/admin/peminjaman/{id}/surat', [AdminPeminjamanController::class, 'cetakSurat'])
         ->name('admin.peminjaman.surat');
+    Route::get('/admin/peminjaman/{id}/surat-permohonan', [AdminPeminjamanController::class, 'lihatSuratPermohonan'])
+        ->name('admin.peminjaman.surat-permohonan');
+    Route::post('/admin/peminjaman/{id}/surat-persetujuan-ttd', [AdminPeminjamanController::class, 'uploadSuratPersetujuanTtd'])
+        ->name('admin.peminjaman.surat-persetujuan-ttd.upload');
     Route::get('/admin/peminjaman/{id}/return', [AdminPeminjamanController::class, 'returnForm'])
         ->name('admin.peminjaman.return.form');
     Route::post('/admin/peminjaman/{id}/return', [AdminPeminjamanController::class, 'returnProcess'])
@@ -170,6 +174,12 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->group(function
     Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjam.peminjaman.store');
     Route::get('/peminjaman/{id}/surat', [PeminjamanController::class, 'downloadSurat'])
         ->name('peminjam.peminjaman.surat');
+    Route::get('/peminjaman/{id}/surat-permohonan', [PeminjamanController::class, 'downloadSuratPermohonan'])
+        ->name('peminjam.peminjaman.surat-permohonan');
+    Route::post('/peminjaman/{id}/surat-permohonan-ttd', [PeminjamanController::class, 'uploadSuratPermohonanTtd'])
+        ->name('peminjam.peminjaman.surat-permohonan-ttd.upload');
+    Route::get('/peminjaman/{id}/surat-persetujuan-ttd', [PeminjamanController::class, 'downloadSuratPersetujuanTtd'])
+        ->name('peminjam.peminjaman.surat-persetujuan-ttd');
     Route::get('/profil', [PeminjamanController::class, 'profil'])->name('peminjam.profil');
     Route::get('/profil/password', [PeminjamanController::class, 'editPassword'])->name('peminjam.profil.password.edit');
     Route::post('/profil/password', [PeminjamanController::class, 'updatePassword'])->name('peminjam.profil.password.update');
