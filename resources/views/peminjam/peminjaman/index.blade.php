@@ -229,6 +229,10 @@
             color: #fff;
         }
 
+        .btn-secondary { background: #eef3f7; color: #37474f; }
+
+        .btn-success { background: var(--success); color: #fff; }
+
         .badge { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; }
         .badge-menunggu { background: var(--warning); }
         .badge-disetujui { background: var(--success); }
@@ -307,6 +311,8 @@
             display: block;
             opacity: 1;
         }
+
+        .small-note { color: #6f7a86; font-size: 12px; margin-top: 4px; }
 
         @media (max-width: 768px) {
             body {
@@ -488,29 +494,32 @@
                         <td>
                             <div style="display:flex;flex-wrap:wrap;gap:6px;">
                                 <a href="{{ route('peminjam.peminjaman.surat-permohonan', $r->id) }}" class="btn btn-info">
-                                    <i class="fas fa-file-signature"></i> Surat Permohonan
+                                    <i class="fas fa-download"></i> Surat Permohonan
                                 </a>
+                                @if($r->status === 'Menunggu' && !$r->file_permohonan_ttd)
+                                    <p class="small-note">Setelah Surat Permohonan diunduh dan ditanda tangan, silahkan upload disini.</p>
+                                @endif
                                 @if($r->file_permohonan_ttd)
                                     <a href="{{ Storage::disk('public')->url($r->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary">
-                                        <i class="fas fa-check"></i> Permohonan TTD
+                                        <i class="fas fa-eye"></i>TTD Surat Permohonan
                                     </a>
                                 @else
                                     <form action="{{ route('peminjam.peminjaman.surat-permohonan-ttd.upload', $r->id) }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="file" name="file_permohonan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
-                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD</button>
+                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD Surat Permohonan</button>
                                     </form>
                                 @endif
                             </div>
                             @if(in_array($r->status, ['Disetujui', 'Dipinjam']))
                                 <div style="margin-top:6px;">
-                                    <a href="{{ route('peminjam.peminjaman.surat', $r->id) }}" class="btn btn-info">
-                                        <i class="fas fa-file-alt"></i>
-                                        Surat Peminjaman
-                                    </a>
                                     @if($r->file_persetujuan_ttd)
-                                        <a href="{{ route('peminjam.peminjaman.surat-persetujuan-ttd', $r->id) }}" target="_blank" class="btn btn-secondary">
-                                            <i class="fas fa-check"></i> Persetujuan TTD
+                                        <a href="{{ route('peminjam.peminjaman.surat-persetujuan-ttd', $r->id) }}" target="_blank" class="btn btn-success">
+                                            <i class="fas fa-eye"></i> TTD Surat Persetujuan
+                                        </a>
+                                    @else
+                                        <a href="{{ route('peminjam.peminjaman.surat', $r->id) }}" target="_blank" class="btn btn-secondary">
+                                            <i class="fas fa-eye"></i> Surat Peminjaman (menunggu TTD Admin)
                                         </a>
                                     @endif
                                 </div>

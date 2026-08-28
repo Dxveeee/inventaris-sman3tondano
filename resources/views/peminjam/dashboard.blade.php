@@ -759,7 +759,7 @@
                         <td>
                             @if(in_array($p->status, ['Disetujui', 'Dipinjam']))
                                 <a href="{{ route('peminjam.peminjaman.surat', $p->id) }}" style="font-size:13px; background-color:var(--info); color:#fff; text-decoration:none; border:1px solid var(--info); border-radius:6px; padding:3px 8px; white-space:nowrap;">
-                                    <i class="fas fa-file-download" style="margin-right: 4px;"></i>
+                                    <i class="fas fa-download" style="margin-right: 4px;"></i>
                                     Surat Peminjaman
                                 </a>
                             @endif
