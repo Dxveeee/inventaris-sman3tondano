@@ -662,18 +662,21 @@
                                         </td>
                                         <td>
                                             <div class="actions">
-                                                @if($record->status === 'Menunggu')
-                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i>Surat Permohonan</a>
-                                                    <form action="{{ route('admin.peminjaman.approve', $record->id) }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>Setujui</button>
-                                                    </form>
-                                                    <form action="{{ route('admin.peminjaman.reject', $record->id) }}" method="POST" class="form-inline">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i>Tolak</button>
-                                                        <textarea name="keterangan_penolakan" placeholder="Alasan penolakan (opsional)"></textarea>
-                                                    </form>
-                                                @elseif($record->status === 'Disetujui')
+                                                    @if($record->status === 'Menunggu')
+                                                        <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i>Surat Permohonan</a>
+                                                        @if($record->file_permohonan_ttd)
+                                                            <a href="{{ Storage::disk('public')->url($record->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat TTD Surat Permohonan</a>
+                                                        @endif
+                                                        <form action="{{ route('admin.peminjaman.approve', $record->id) }}" method="POST">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>Setujui</button>
+                                                        </form>
+                                                        <form action="{{ route('admin.peminjaman.reject', $record->id) }}" method="POST" class="form-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i>Tolak</button>
+                                                            <textarea name="keterangan_penolakan" placeholder="Alasan penolakan (opsional)"></textarea>
+                                                        </form>
+                                                    @elseif($record->status === 'Disetujui')
                                                     <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat Surat Permohonan</a>
                                                     <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn" style="background:var(--info);color:#fff;font-size:13px;padding:6px; 12px;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-right:6px;justify-content:center;">
                                                         <i class="fas fa-download" style="margin-left: 8px; margin-right: 3px;"></i>
@@ -722,7 +725,7 @@
                                     @if($record->detail->isNotEmpty() && $record->status !== 'Ditolak')
                                         <tr>
                                             <td></td>
-                                            <td colspan="8" style="background: #f8fafc; padding: 14px 16px;">
+                                            <td colspan="10" style="background: #f8fafc; padding: 14px 16px;">
                                                 <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">
                                                     <i class="fas fa-boxes"></i>
                                                     Unit yang dipilih ({{ $record->detail->count() }} unit)
