@@ -185,6 +185,7 @@
         .table-card table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .table-card th,
@@ -207,23 +208,32 @@
             background: #f8fafc;
         }
 
+        .table-card th:last-child,
         .table-card td:last-child {
-            width: 130px;
+            padding-left: 32px;
+        }
+
+        td:nth-child(8) {
+            max-width: 200px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
         }
 
         .btn {
             border: none;
-            border-radius: 6px;
-            padding: 6px 12px;
+            border-radius: 10px;
+            padding: 9px 14px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             text-decoration: none;
         }
 
+        .btn-primary { background: #1976d2; color: #fff; }
         .btn-info {
             background: var(--info);
             color: #fff;
@@ -232,6 +242,12 @@
         .btn-secondary { background: #eef3f7; color: #37474f; }
 
         .btn-success { background: var(--success); color: #fff; }
+        .btn-danger { background: #f44336; color: #fff; }
+        .btn.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+
+        .btn-file-input { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+        .btn-file-input input[type="file"] { padding: 10px 12px; border: 1px solid #dfe5ea; border-radius: 8px; font-size: 13px; }
+        .btn-file-input button { width: 100%; }
 
         .badge { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; }
         .badge-menunggu { background: var(--warning); }
@@ -451,15 +467,15 @@
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>Tgl Pengajuan</th>
-                    <th>Tgl Rencana Pinjam</th>
-                    <th>Tgl Rencana Kembali</th>
-                    <th>Status</th>
-                    <th>Keterangan</th>
-                    <th>Aksi</th>
+                    <th style="width: 3%;">No</th>
+                    <th style="width: 15%;">Nama Barang</th>
+                    <th style="width: 6%;">Jumlah</th>
+                    <th style="width: 9%;">Tgl Pengajuan</th>
+                    <th style="width: 11%;">Tgl Rencana Pinjam</th>
+                    <th style="width: 10%;">Tgl Rencana Kembali</th>
+                    <th style="width: 9%;">Status</th>
+                    <th style="width: 15%;">Keterangan</th>
+                    <th style="width: 22%;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -492,34 +508,37 @@
                             {{ $r->status === 'Ditolak' ? $r->keterangan_penolakan : ($r->keterangan ?? '-') }}
                         </td>
                         <td>
-                            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                                <a href="{{ route('peminjam.peminjaman.surat-permohonan', $r->id) }}" class="btn btn-info">
+                            <div style="display:flex; flex-direction:column; gap:6px; ">
+                                <a href="{{ route('peminjam.peminjaman.surat-permohonan', $r->id) }}" class="btn btn-info" style="width: 90%;">
                                     <i class="fas fa-download"></i> Surat Permohonan
                                 </a>
                                 @if($r->status === 'Menunggu' && !$r->file_permohonan_ttd)
-                                    <p class="small-note">Setelah Surat Permohonan diunduh dan ditanda tangan, silahkan upload disini.</p>
+                                    <p class="small-note">*Setelah Surat Permohonan diunduh dan ditanda tangan, silahkan upload disini.</p>
                                 @endif
                                 @if($r->file_permohonan_ttd)
-                                    <a href="{{ Storage::disk('public')->url($r->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary">
+                                    <a href="{{ Storage::disk('public')->url($r->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary" style="width: 90%;">
                                         <i class="fas fa-eye"></i>TTD Surat Permohonan
                                     </a>
                                 @else
-                                    <form action="{{ route('peminjam.peminjaman.surat-permohonan-ttd.upload', $r->id) }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('peminjam.peminjaman.surat-permohonan-ttd.upload', $r->id) }}" method="POST" enctype="multipart/form-data" class="btn-file-input" style="width: 90%;">
                                         @csrf
                                         <input type="file" name="file_permohonan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
-                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD Surat Permohonan</button>
+                                        <button type="submit" class="btn btn-secondary" style="display: flex; justify-content: flex-start;"><i class="fas fa-upload"></i> Upload TTD Surat Permohonan</button>
                                     </form>
                                 @endif
                             </div>
                             @if(in_array($r->status, ['Disetujui', 'Dipinjam']))
-                                <div style="margin-top:6px;">
+                                <div style="margin-top:6px; width: 90%;">
                                     @if($r->file_persetujuan_ttd)
-                                        <a href="{{ route('peminjam.peminjaman.surat-persetujuan-ttd', $r->id) }}" target="_blank" class="btn btn-success">
+                                        <a href="{{ route('peminjam.peminjaman.surat-persetujuan-ttd', $r->id) }}" target="_blank" class="btn btn-success" style="width: 100%;">
                                             <i class="fas fa-eye"></i> TTD Surat Persetujuan
                                         </a>
+                                        <p class="small-note">
+                                             *Sebagai bukti untuk melakukan <br> peminjaman barang inventaris
+                                        </p>
                                     @else
-                                        <a href="{{ route('peminjam.peminjaman.surat', $r->id) }}" target="_blank" class="btn btn-secondary">
-                                            <i class="fas fa-eye"></i> Surat Peminjaman (menunggu TTD Admin)
+                                        <a href="#" class="btn btn-secondary disabled">
+                                            <i class="fas fa-eye"></i> Surat Persetujuan (menunggu TTD Admin)
                                         </a>
                                     @endif
                                 </div>

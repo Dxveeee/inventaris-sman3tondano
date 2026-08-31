@@ -459,6 +459,13 @@
             border-bottom: none;
         }
 
+        td:nth-child(9) {
+            max-width: 200px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
         .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; }
         .badge-waiting { background: rgba(255,193,7,.14); color: #a67600; }
         .badge-approved { background: rgba(76,175,80,.14); color: #256028; }
@@ -477,6 +484,10 @@
         .btn-success { background: #4caf50; color: #fff; }
         .btn-danger { background: #f44336; color: #fff; }
         .btn-warning { background: #ff9800; color: #fff; }
+        .btn-info { background: #2196f3; color: #fff; }
+        .btn-file-input { display: flex; flex-direction: column; gap: 8px; width: 88%; }
+        .btn-file-input input[type="file"] { padding: 10px 12px; border: 1px solid #dfe5ea; border-radius: 8px; font-size: 13px; }
+        .btn-file-input button { width: 100%; }
         .input-inline { width: 180px; padding: 10px 12px; border: 1px solid #dfe5ea; border-radius: 12px; font-size: 13px; color: #263238; }
         .small-note { color: #6f7a86; font-size: 12px; margin-top: 4px; }
         .form-inline { display: grid; gap: 8px; }
@@ -661,57 +672,55 @@
                                             <span class="badge {{ $badge }}">{{ $status }}</span>
                                         </td>
                                         <td>
-                                            <div class="actions">
+                                            <div class="actions" style="flex-direction: column; align-items: stretch;">
                                                     @if($record->status === 'Menunggu')
-                                                        <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-primary"><i class="fas fa-eye"></i>Surat Permohonan</a>
                                                         @if($record->file_permohonan_ttd)
-                                                            <a href="{{ Storage::disk('public')->url($record->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat TTD Surat Permohonan</a>
+                                                            <a href="{{ Storage::disk('public')->url($record->file_permohonan_ttd) }}" target="_blank" class="btn btn-secondary" style="padding: 9px 14px;"><i class="fas fa-eye"></i>Lihat TTD Surat Permohonan</a>
                                                         @endif
-                                                        <form action="{{ route('admin.peminjaman.approve', $record->id) }}" method="POST">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>Setujui</button>
-                                                        </form>
-                                                        <form action="{{ route('admin.peminjaman.reject', $record->id) }}" method="POST" class="form-inline">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i>Tolak</button>
-                                                            <textarea name="keterangan_penolakan" placeholder="Alasan penolakan (opsional)"></textarea>
-                                                        </form>
+                                                        <div style="display:flex; gap:8px; width:100%;">
+                                                            <form action="{{ route('admin.peminjaman.approve', $record->id) }}" method="POST" style="flex:1; display:flex;">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-success" style="flex:1;"><i class="fas fa-check"></i>Setujui</button>
+                                                            </form>
+                                                            <form id="reject-form-{{ $record->id }}" action="{{ route('admin.peminjaman.reject', $record->id) }}" method="POST" style="flex:1; display:flex;">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-danger" style="flex:1;"><i class="fas fa-times"></i>Tolak</button>
+                                                            </form>
+                                                        </div>
+                                                        <textarea name="keterangan_penolakan" form="reject-form-{{ $record->id }}" placeholder="Alasan penolakan (opsional)" style="width:100%;"></textarea>
                                                     @elseif($record->status === 'Disetujui')
-                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat Surat Permohonan</a>
-                                                    <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn" style="background:var(--info);color:#fff;font-size:13px;padding:6px; 12px;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;margin-right:6px;justify-content:center;">
-                                                        <i class="fas fa-download" style="margin-left: 8px; margin-right: 3px;"></i>
-                                                        Surat Persetujuan
-                                                    </a>
+                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-secondary" style="width: 88%"><i class="fas fa-eye"></i>Lihat Surat Permohonan</a>
+                                                    <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn btn-info" style="width: 59%"><i class="fas fa-download" ></i>Surat Persetujuan</a>
                                                     @if(!$record->file_persetujuan_ttd)
-                                                        <p class="small-note">Setelah Surat Persetujuan diunduh dan ditanda tangan, silahkan upload disini.</p>
+                                                        <p class="small-note">*Setelah Surat Persetujuan diunduh <br> dan ditanda tangan, silahkan upload disini.</p>
                                                     @endif
-                                                    <form action="{{ route('admin.peminjaman.surat-persetujuan-ttd.upload', $record->id) }}" method="POST" enctype="multipart/form-data">
+                                                    <form action="{{ route('admin.peminjaman.surat-persetujuan-ttd.upload', $record->id) }}" method="POST" enctype="multipart/form-data" class="btn-file-input">
                                                         @csrf
                                                         <input type="file" name="file_persetujuan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
                                                         <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i>Upload TTD Surat Persetujuan</button>
                                                     </form>
                                                     @if($record->file_persetujuan_ttd)
-                                                        <a href="{{ Storage::disk('public')->url($record->file_persetujuan_ttd) }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat TTD Surat Persetujuan</a>
+                                                        <a href="{{ Storage::disk('public')->url($record->file_persetujuan_ttd) }}" target="_blank" class="btn btn-secondary" style="width: 88%"><i class="fas fa-eye"></i>Lihat TTD Surat Persetujuan</a>
                                                     @endif
-                                                    <form action="{{ route('admin.peminjaman.dipinjam', $record->id) }}" method="POST" style="display:inline-block">
+                                                    <form action="{{ route('admin.peminjaman.dipinjam', $record->id) }}" method="POST">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-warning"><i class="fas fa-check"></i>Proses Pinjam</button>
+                                                        <button type="submit" class="btn btn-warning" style="width:51%;"><i class="fas fa-check"></i>Proses Pinjam</button>
                                                     </form>
                                                 @elseif($record->status === 'Dipinjam')
-                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat Surat Permohonan</a>
-                                                    <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn btn-primary"><i class="fas fa-download"></i>Surat Persetujuan</a>
+                                                    <a href="{{ route('admin.peminjaman.surat-permohonan', $record->id) }}" class="btn btn-secondary" style="width: 88%"><i class="fas fa-eye"></i>Lihat Surat Permohonan</a>
+                                                    <a href="{{ route('admin.peminjaman.surat', $record->id) }}" class="btn btn-info" style="width: 59%"><i class="fas fa-download"></i>Surat Persetujuan</a>
                                                     @if(!$record->file_persetujuan_ttd)
                                                         <p class="small-note">Setelah Surat Persetujuan diunduh dan ditanda tangan, silahkan upload disini.</p>
                                                     @endif
-                                                    <form action="{{ route('admin.peminjaman.surat-persetujuan-ttd.upload', $record->id) }}" method="POST" enctype="multipart/form-data">
+                                                    <form action="{{ route('admin.peminjaman.surat-persetujuan-ttd.upload', $record->id) }}" method="POST" enctype="multipart/form-data" class="btn-file-input">
                                                         @csrf
                                                         <input type="file" name="file_persetujuan_ttd" accept=".pdf,.jpg,.jpeg,.png" required>
-                                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i> Upload TTD Surat Persetujuan</button>
+                                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-upload"></i>Upload TTD Surat Persetujuan</button>
                                                     </form>
                                                     @if($record->file_persetujuan_ttd)
-                                                        <a href="{{ Storage::disk('public')->url($record->file_persetujuan_ttd) }}" target="_blank" class="btn btn-secondary"><i class="fas fa-eye"></i>Lihat TTD Surat Persetujuan</a>
+                                                        <a href="{{ Storage::disk('public')->url($record->file_persetujuan_ttd) }}" target="_blank" class="btn btn-secondary" style="width: 88%"><i class="fas fa-eye"></i>Lihat TTD Surat Persetujuan</a>
                                                     @endif
-                                                    <a href="{{ route('admin.peminjaman.return.form', $record->id) }}" class="btn btn-primary"><i class="fas fa-undo"></i>Proses Kembali</a>
+                                                    <a href="{{ route('admin.peminjaman.return.form', $record->id) }}" class="btn btn-primary" style="width:54%;"><i class="fas fa-undo"></i>Proses Kembali</a>
                                                 @else
                                                     <span class="small-note">Tidak ada aksi</span>
                                                 @endif
