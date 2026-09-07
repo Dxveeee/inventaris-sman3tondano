@@ -5,7 +5,6 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Times New Roman', Times, serif; font-size: 12px; color: #000; padding: 30px 40px; }
-        .sekolah { text-align: center; font-size: 14px; font-weight: bold; margin-bottom: 28px; }
         .judul { text-align: center; font-size: 13px; font-weight: bold; text-decoration: underline; margin-bottom: 22px; }
         .pembuka, .pernyataan, .info-tambahan { line-height: 1.8; margin-bottom: 14px; }
         .pembuka table, .info-tambahan table { border-collapse: collapse; }
@@ -23,14 +22,13 @@
     </style>
 </head>
 <body>
-    <div class="sekolah">SMA NEGERI 3 TONDANO</div>
-    <div class="judul">SURAT PERMOHONAN PEMINJAMAN BARANG INVENTARIS</div>
+    <div class="judul">SURAT PERMOHONAN PEMINJAMAN BARANG</div>
 
     <div class="pembuka">
         Yang bertanda tangan di bawah ini:
         <table style="margin-top:8px;">
             <tr><td class="label">Nama Peminjam</td><td class="colon">:</td><td><strong>{{ $peminjaman->peminjam->name ?? '-' }}</strong></td></tr>
-            <tr><td class="label">Peran</td><td class="colon">:</td><td>{{ $peminjaman->peminjam->jabatan ?? '-' }}</td></tr>
+            <tr><td class="label">Status</td><td class="colon">:</td><td>{{ $peminjaman->peminjam->jabatan ?? '-' }}</td></tr>
         </table>
     </div>
 

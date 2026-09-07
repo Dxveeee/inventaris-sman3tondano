@@ -277,7 +277,7 @@
     <div class="scan-card">
         <div class="scan-header">
             <div class="scan-meta">
-                <div class="scan-title"><i class="fas fa-qrcode" style="color:#ff9800;margin-right:8px"></i>Scan QR Barang</div>
+                <div class="scan-title"><i class="fas fa-qrcode" style="color:#ff9800;margin-right:8px"></i>Scan QR Code</div>
                 <div class="scan-sub">Arahkan kamera ke QR Code yang tertempel di barang untuk melihat spesifikasi lengkap.</div>
                 <div class="scan-note">Hasil scan akan muncul dalam popup setelah QR Code terbaca.</div>
             </div>

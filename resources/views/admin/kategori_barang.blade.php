@@ -569,7 +569,7 @@
         <!-- Topbar -->
     <div class="topbar">
         <div class="topbar-title">
-            <h1>Kelola Kategori</h1>
+            <h1>Kategori Barang</h1>
             <p>Daftar Kategori inventaris SMA Negeri 3 Tondano</p>
         </div>
         <div class="topbar-date">

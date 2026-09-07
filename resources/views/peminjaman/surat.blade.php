@@ -40,7 +40,7 @@
         .pernyataan { margin-bottom: 20px; line-height: 1.8; font-size: 12px; }
 
         .ttd-table { width: 100%; border-collapse: collapse; border: none; margin-top: 30px; }
-        .ttd-table td { width: 50%; text-align: center; border: none; vertical-align: top; padding: 0 20px; }
+        .ttd-table td { width: 100%; text-align: center; border: none; vertical-align: top; padding: 0 20px; }
         .ttd-space { height: 70px; }
         .ttd-name { font-weight: bold; border-top: 1px solid #000; padding-top: 4px; display: inline-block; min-width: 180px; }
         .ttd-nip { font-size: 10px; margin-top: 2px; }
@@ -72,7 +72,7 @@
     </table>
     <div class="kop-divider"></div>
 
-    <div class="judul">SURAT PEMINJAMAN BARANG INVENTARIS</div>
+    <div class="judul">SURAT PEMINJAMAN BARANG</div>
     <div class="nomor-surat">Nomor: SPB/SMAN3TONDANO/</div>
 
     <div class="pembuka">
@@ -84,7 +84,7 @@
                 <td><strong>{{ $peminjaman->peminjam->name ?? '-' }}</strong></td>
             </tr>
             <tr>
-                <td class="label">Peran</td>
+                <td class="label">Status</td>
                 <td class="colon">:</td>
                 <td>{{ $peminjaman->peminjam->jabatan ?? '-' }}</td>
             </tr>
@@ -155,13 +155,6 @@
         <tr>
             <td>
                 <div>Tondano, {{ $tanggalCetak }}</div>
-                <div style="margin-top:4px;font-weight:bold;">Peminjam,</div>
-                <div class="ttd-space"></div>
-                <div class="ttd-name">{{ $peminjaman->peminjam->name ?? '...' }}</div>
-                <div class="ttd-nip">{{ $peminjaman->peminjam->jabatan ?? '' }}</div>
-            </td>
-            <td>
-                <div>&nbsp;</div>
                 <div style="margin-top:4px;font-weight:bold;">Pengurus Barang,</div>
                 <div class="ttd-space"></div>
                 <div class="ttd-name">.................................</div>
