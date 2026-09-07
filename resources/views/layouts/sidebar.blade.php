@@ -74,16 +74,14 @@
             Scan QR Code
         </a>
 
-        @if(auth()->user()->role === 'admin')
         <div class="nav-label">Transaksi</div>
 
         <a href="{{ route('admin.peminjaman.index') }}" class="nav-item {{ request()->routeIs('admin.peminjaman.index') ? 'active' : '' }}">
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
             </svg>
-            Manajemen Peminjaman
+            {{ auth()->user()->role === 'admin' ? 'Manajemen Peminjaman' : 'Status Peminjaman' }}
         </a>
-        @endif
 
         <div class="nav-label">Laporan</div>
 

@@ -145,21 +145,27 @@ Route::middleware(['auth', 'role:admin,kepala_sekolah'])->group(function () {
     Route::get('/admin/peminjaman', [AdminPeminjamanController::class, 'index'])
         ->name('admin.peminjaman.index');
     Route::post('/admin/peminjaman/{id}/approve', [AdminPeminjamanController::class, 'approve'])
-        ->name('admin.peminjaman.approve');
+        ->name('admin.peminjaman.approve')
+        ->middleware('role:admin');
     Route::post('/admin/peminjaman/{id}/reject', [AdminPeminjamanController::class, 'reject'])
-        ->name('admin.peminjaman.reject');
+        ->name('admin.peminjaman.reject')
+        ->middleware('role:admin');
     Route::post('/admin/peminjaman/{id}/dipinjam', [AdminPeminjamanController::class, 'dipinjam'])
-        ->name('admin.peminjaman.dipinjam');
+        ->name('admin.peminjaman.dipinjam')
+        ->middleware('role:admin');
     Route::get('/admin/peminjaman/{id}/surat', [AdminPeminjamanController::class, 'cetakSurat'])
         ->name('admin.peminjaman.surat');
     Route::get('/admin/peminjaman/{id}/surat-permohonan', [AdminPeminjamanController::class, 'lihatSuratPermohonan'])
         ->name('admin.peminjaman.surat-permohonan');
     Route::post('/admin/peminjaman/{id}/surat-persetujuan-ttd', [AdminPeminjamanController::class, 'uploadSuratPersetujuanTtd'])
-        ->name('admin.peminjaman.surat-persetujuan-ttd.upload');
+        ->name('admin.peminjaman.surat-persetujuan-ttd.upload')
+        ->middleware('role:admin');
     Route::get('/admin/peminjaman/{id}/return', [AdminPeminjamanController::class, 'returnForm'])
-        ->name('admin.peminjaman.return.form');
+        ->name('admin.peminjaman.return.form')
+        ->middleware('role:admin');
     Route::post('/admin/peminjaman/{id}/return', [AdminPeminjamanController::class, 'returnProcess'])
-        ->name('admin.peminjaman.return.process');
+        ->name('admin.peminjaman.return.process')
+        ->middleware('role:admin');
     });
 
 Route::get('/dashboard', function () {

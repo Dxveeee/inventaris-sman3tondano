@@ -32,7 +32,7 @@
         </table>
     </div>
 
-    <div class="pernyataan">Mengajukan permohonan peminjaman barang inventaris sebagai berikut:</div>
+    <div class="pernyataan">Mengajukan permohonan peminjaman barang sebagai berikut:</div>
 
     <table class="tabel-barang">
         <thead><tr><th style="width:8%">No</th><th>Nama Barang</th><th style="width:30%">No. Register</th></tr></thead>

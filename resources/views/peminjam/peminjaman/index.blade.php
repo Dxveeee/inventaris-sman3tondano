@@ -534,7 +534,7 @@
                                             <i class="fas fa-eye"></i> TTD Surat Persetujuan
                                         </a>
                                         <p class="small-note">
-                                             *Sebagai bukti untuk melakukan <br> peminjaman barang inventaris
+                                             *Sebagai bukti untuk melakukan <br> peminjaman barang
                                         </p>
                                     @else
                                         <a href="#" class="btn btn-secondary disabled">
