@@ -76,6 +76,28 @@ Route::middleware(['auth', 'role:admin,kepala_sekolah'])->group(function () {
         ->orderBy('total', 'desc')
         ->get();
 
+    $peminjamGuru = \App\Models\Peminjaman::whereHas('peminjam', function ($q) {
+        $q->where('jabatan', 'Guru');
+    })->count();
+    $peminjamSiswa = \App\Models\Peminjaman::whereHas('peminjam', function ($q) {
+        $q->where('jabatan', 'Siswa');
+    })->count();
+    $totalPeminjamRole = $peminjamGuru + $peminjamSiswa;
+    $persenGuru = $totalPeminjamRole > 0 ? round($peminjamGuru / $totalPeminjamRole * 100) : 0;
+    $persenSiswa = $totalPeminjamRole > 0 ? round($peminjamSiswa / $totalPeminjamRole * 100) : 0;
+
+    $barangTerpopuler = \App\Models\PeminjamanDetail::whereHas('peminjaman', function ($q) {
+            $q->whereIn('status', ['Disetujui', 'Dipinjam', 'Dikembalikan']);
+        })
+        ->with('barang:id,nama_barang')
+        ->get()
+        ->filter(fn ($detail) => $detail->barang !== null)
+        ->groupBy(fn ($detail) => $detail->barang->nama_barang)
+        ->map(fn ($group, $nama) => (object) ['nama' => $nama, 'jumlah' => $group->count()])
+        ->sortByDesc('jumlah')
+        ->take(5)
+        ->values();
+
     // Hanya 1 return view di akhir
     return view('admin.dashboard', compact(
         'totalBarang',
@@ -90,6 +112,12 @@ Route::middleware(['auth', 'role:admin,kepala_sekolah'])->group(function () {
         'kondisiData',
         'barangPerKategori',
         'barangPerJenis',
+        'peminjamGuru',
+        'peminjamSiswa',
+        'totalPeminjamRole',
+        'persenGuru',
+        'persenSiswa',
+        'barangTerpopuler',
     ));
     })->name('admin.dashboard');
 

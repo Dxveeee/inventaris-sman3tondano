@@ -386,6 +386,22 @@
             border: 1px solid var(--border);
         }
 
+        .chart-card--hero {
+            grid-column: span 2;
+            border-left: 3px solid var(--accent);
+        }
+
+        .chart-card--popular {
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+        }
+
+        .chart-card--popular .chart-wrap {
+            flex: 1;
+            min-height: 320px;
+        }
+
         .chart-header {
             display: flex;
             align-items: center;
@@ -897,6 +913,60 @@
     <!-- Charts -->
     <div class="charts-row">
 
+        <!-- Bar Chart -->
+        <div class="chart-card chart-card--hero">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Barang per Kategori</div>
+                    <div class="chart-sub">Distribusi jumlah barang berdasarkan kategori</div>
+                </div>
+                <span class="chart-badge">Tahun ini</span>
+            </div>
+            <div class="chart-wrap" style="height:413px">
+                @if($barangPerKategori->isEmpty())
+                    <div style="text-align:center;padding:60px 20px">
+                        <div style="font-size:40px;margin-bottom:12px"></div>
+                        <div style="color:var(--muted);font-size:13px">
+                            Belum ada data barang per kategori
+                        </div>
+                    </div>
+                @else
+                    <canvas id="barangPerKategoriChart"></canvas>
+                @endif
+            </div>
+        </div>
+
+        <!-- Donut Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Kondisi Barang</div>
+                    <div class="chart-sub">Persentase kondisi seluruh barang</div>
+                </div>
+            </div>
+            <div class="chart-wrap" style="position:relative;max-width:335px;margin:0 auto;">
+                <canvas id="donutChart" height="220"></canvas>
+                <div class="donut-center">
+                    <div class="dc-val">{{ $totalBarang }}</div>
+                    <div class="dc-lbl">Total</div>
+                </div>
+            </div>
+            <div class="donut-legend">
+                <div class="legend-item">
+                    <div class="legend-label"><div class="legend-dot" style="background:#22a06b"></div> Baik</div>
+                    <div class="legend-val">{{ $kondisiBaik }}</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-label"><div class="legend-dot" style="background:#e8a020"></div> Rusak Ringan</div>
+                    <div class="legend-val">{{ $rusakRingan }}</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-label"><div class="legend-dot" style="background:#e05252"></div> Rusak Berat</div>
+                    <div class="legend-val">{{ $rusakBerat }}</div>
+                </div>
+            </div>
+        </div>
+
         {{-- Pie Chart Per Jenis Barang --}}
         <div class="chart-card">
             <div class="chart-header">
@@ -1004,56 +1074,48 @@
             @endif
         </div>
 
-        <!-- Bar Chart -->
-        <div class="chart-card">
+        <div class="chart-card chart-card--popular">
             <div class="chart-header">
                 <div>
-                    <div class="chart-title">Barang per Kategori</div>
-                    <div class="chart-sub">Distribusi jumlah barang berdasarkan kategori</div>
+                    <div class="chart-title">Barang Paling Sering Dipinjam</div>
+                    <div class="chart-sub">Top 5 unit barang berdasarkan jumlah peminjaman</div>
                 </div>
-                <span class="chart-badge">Tahun ini</span>
             </div>
-            <div class="chart-wrap" style="height:413px">
-                @if($barangPerKategori->isEmpty())
+            <div class="chart-wrap">
+                @if($barangTerpopuler->isEmpty())
                     <div style="text-align:center;padding:60px 20px">
-                        <div style="font-size:40px;margin-bottom:12px"></div>
                         <div style="color:var(--muted);font-size:13px">
-                            Belum ada data barang per kategori
+                            Belum ada data peminjaman
                         </div>
                     </div>
                 @else
-                    <canvas id="barangPerKategoriChart"></canvas>
+                    <canvas id="barangTerpopulerChart"></canvas>
                 @endif
             </div>
         </div>
 
-        <!-- Donut Chart -->
         <div class="chart-card">
             <div class="chart-header">
                 <div>
-                    <div class="chart-title">Kondisi Barang</div>
-                    <div class="chart-sub">Persentase kondisi seluruh barang</div>
+                    <div class="chart-title">Peminjam Berdasarkan Peran</div>
+                    <div class="chart-sub">Persentase peminjaman: Guru vs Siswa</div>
                 </div>
             </div>
             <div class="chart-wrap" style="position:relative;max-width:335px;margin:0 auto;">
-                <canvas id="donutChart" height="220"></canvas>
+                <canvas id="donutPeranChart" height="220"></canvas>
                 <div class="donut-center">
-                    <div class="dc-val">{{ $totalBarang }}</div>
+                    <div class="dc-val">{{ $totalPeminjamRole }}</div>
                     <div class="dc-lbl">Total</div>
                 </div>
             </div>
             <div class="donut-legend">
                 <div class="legend-item">
-                    <div class="legend-label"><div class="legend-dot" style="background:#22a06b"></div> Baik</div>
-                    <div class="legend-val">{{ $kondisiBaik }}</div>
+                    <div class="legend-label"><div class="legend-dot" style="background:#3b6dc9"></div> Guru</div>
+                    <div class="legend-val">{{ $persenGuru }}%</div>
                 </div>
                 <div class="legend-item">
-                    <div class="legend-label"><div class="legend-dot" style="background:#e8a020"></div> Rusak Ringan</div>
-                    <div class="legend-val">{{ $rusakRingan }}</div>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-label"><div class="legend-dot" style="background:#e05252"></div> Rusak Berat</div>
-                    <div class="legend-val">{{ $rusakBerat }}</div>
+                    <div class="legend-label"><div class="legend-dot" style="background:#f0a942"></div> Siswa</div>
+                    <div class="legend-val">{{ $persenSiswa }}%</div>
                 </div>
             </div>
         </div>
@@ -1175,6 +1237,54 @@
     });
     @endif
 
+    @if(!$barangTerpopuler->isEmpty())
+    const barTerpopulerCtx = document.getElementById('barangTerpopulerChart').getContext('2d');
+    new Chart(barTerpopulerCtx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($barangTerpopuler->pluck('nama')) !!},
+            datasets: [{
+                label: 'Jumlah Dipinjam',
+                data: {!! json_encode($barangTerpopuler->pluck('jumlah')) !!},
+                backgroundColor: 'rgba(33,150,243,0.8)',
+                borderColor: '#2196f3',
+                borderWidth: 1,
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.y + ' unit';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        precision: 0,
+                        font: { family: 'Plus Jakarta Sans', size: 11 },
+                        color: '#6b7f94'
+                    },
+                    grid: { color: 'rgba(0,0,0,.05)' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { family: 'Plus Jakarta Sans', size: 11 }, color: '#6b7f94' }
+                }
+            }
+        }
+    });
+    @endif
+
     // Donut Chart
     const donutCtx = document.getElementById('donutChart').getContext('2d');
     new Chart(donutCtx, {
@@ -1184,6 +1294,27 @@
             datasets: [{
                 data: @json($kondisiData),
                 backgroundColor: ['#22a06b','#e8a020','#e05252','#dce5f0'],
+                borderWidth: 0,
+                hoverOffset: 6,
+            }]
+        },
+        options: {
+            cutout: '68%',
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+            }
+        }
+    });
+
+    const donutPeranCtx = document.getElementById('donutPeranChart').getContext('2d');
+    new Chart(donutPeranCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Guru', 'Siswa'],
+            datasets: [{
+                data: [{{ $peminjamGuru }}, {{ $peminjamSiswa }}],
+                backgroundColor: ['#3b6dc9', '#f0a942'],
                 borderWidth: 0,
                 hoverOffset: 6,
             }]
