@@ -383,6 +383,7 @@
         .table-card table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .table-card th,
@@ -401,12 +402,17 @@
             color: white;
         }
 
-        .table-card tbody tr:hover {
-            background: #f8fafc;
+        .table-card th:nth-child(4),
+        .table-card td:nth-child(4),
+        .table-card th:nth-child(5),
+        .table-card td:nth-child(5),
+        .table-card th:nth-child(6),
+        .table-card td:nth-child(6) {
+            white-space: nowrap;
         }
 
-        .table-card td:last-child {
-            width: 130px;
+        .table-card tbody tr:hover {
+            background: #f8fafc;
         }
 
         .btn-group {
@@ -420,16 +426,26 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 10px;
+            gap: 8px;
+            padding: 9px 14px;
             background: var(--accent);
             color: #fff;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 14px;
             font-weight: 700;
+            font-size: 13px;
             border: none;
+            border-radius: 10px;
+            text-decoration: none;
             cursor: pointer;
+            transition: background .18s, transform .18s;
         }
+
+        .btn:hover {
+            background: #e68900;
+            transform: translateY(-1px);
+        }
+
+        .btn-info { background: var(--info); color: #fff; }
+        .btn-success { background: var(--success); color: #fff; }
 
         .btn-secondary {
             background: var(--primary-l);
@@ -446,6 +462,9 @@
         .badge-dipinjam { background: var(--info); }
         .badge-dikembalikan { background: #607d8b; }
         .badge-ditolak { background: var(--danger); }
+        .badge-danger { background: var(--danger); }
+        .badge-warning { background: var(--warning); }
+        .badge-success { background: var(--success); }
 
         .mobile-topbar {
             display: none;
@@ -721,14 +740,14 @@
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Barang</th>
-                    <th>Jumlah</th>
-                    <th>Tgl Pengajuan</th>
-                    <th>Tgl Rencana Kembali</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                    <th>Keterangan</th>
+                    <th style="width: 4%;">No</th>
+                    <th style="width: 22%;">Nama Barang</th>
+                    <th style="width: 7%;">Jumlah</th>
+                    <th style="width: 12%;">Tgl Pengajuan</th>
+                    <th style="width: 12%;">Tgl Rencana Pinjam</th>
+                    <th style="width: 12%;">Tgl Rencana Kembali</th>
+                    <th style="width: 10%;">Status</th>
+                    <th style="width: 21%;">Keterangan</th>
                 </tr>
             </thead>
             <tbody>
@@ -743,6 +762,7 @@
                         </td>
                         <td>{{ $p->jumlah_pinjam }}</td>
                         <td><strong>{{ $p->tanggal_pengajuan->format('d-m-Y') }}</strong></td>
+                        <td><strong>{{ optional($p->tanggal_pinjam_rencana)->format('d-m-Y') ?? '-' }}</strong></td>
                         <td><strong>{{ $p->tanggal_kembali_rencana->format('d-m-Y') }}</strong></td>
                         <td>
                             @php
@@ -751,18 +771,10 @@
                                     case 'Disetujui': $statusClass = 'badge-disetujui'; break;
                                     case 'Dipinjam': $statusClass = 'badge-dipinjam'; break;
                                     case 'Dikembalikan': $statusClass = 'badge-dikembalikan'; break;
-                                    case 'Ditolak': $statusClass = 'badge-dikembalikan'; break;
+                                    case 'Ditolak': $statusClass = 'badge-ditolak'; break;
                                 }
                             @endphp
                             <span class="badge {{ $statusClass }}">{{ $p->status }}</span>
-                        </td>
-                        <td>
-                            @if(in_array($p->status, ['Disetujui', 'Dipinjam']))
-                                <a href="{{ route('peminjam.peminjaman.surat', $p->id) }}" style="font-size:13px; background-color:var(--info); color:#fff; text-decoration:none; border:1px solid var(--info); border-radius:6px; padding:3px 8px; white-space:nowrap;">
-                                    <i class="fas fa-download" style="margin-right: 4px;"></i>
-                                    Surat Peminjaman
-                                </a>
-                            @endif
                         </td>
                         <td>
                             @if($p->status === 'Ditolak')
