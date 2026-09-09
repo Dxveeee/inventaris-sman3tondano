@@ -789,7 +789,7 @@
                                         @if($p->detail->isNotEmpty() && !in_array($p->status, ['Menunggu', 'Ditolak']))
                         <tr>
                             <td></td>
-                            <td colspan="8" style="background: #f8fafc; padding: 14px 16px;">
+                            <td colspan="7" style="background: #f8fafc; padding: 14px 16px;">
                                 <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">
                                     <i class="fas fa-boxes"></i>
                                     Unit yang dipinjam ({{ $p->detail->count() }} unit)
@@ -824,7 +824,7 @@
                     @endif
                 @empty
                     <tr>
-                        <td colspan="9" class="empty-state">Belum ada aktivitas peminjaman.</td>
+                        <td colspan="8" class="empty-state">Belum ada aktivitas peminjaman.</td>
                     </tr>
                 @endforelse
             </tbody>
