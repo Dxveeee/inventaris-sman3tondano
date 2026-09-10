@@ -180,7 +180,31 @@
         .field-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
         .field-card h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
         .field-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+        .profile-hero { display: flex; align-items: center; gap: 20px; }
+        .profile-avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: var(--primary); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 700; color: #fff;
+        }
+        .profile-name-block h2 {
+            font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 8px;
+        }
+        .badge-peran {
+            display: inline-block; padding: 4px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+            background: rgba(255,152,0,.1); color: var(--accent);
+        }
+        .profile-email {
+            font-size: 13px; color: var(--muted);
+            display: flex; align-items: center; gap: 6px; margin-top: 8px;
+        }
         .btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 10px 10px; background: var(--accent); color: #fff; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 700; border: none; cursor: pointer; }
+        .btn-primary:hover {
+            background: #f57c00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,.3);
+        }
 
         .mobile-topbar {
             display: none;
@@ -371,26 +395,15 @@
 
     <div class="profile-card">
         <div class="profile-header">
-            <div>
-                <div class="profile-title">Data Profil</div>
-                <div class="profile-subtitle">Informasi akun Anda.</div>
+            <div class="profile-hero">
+                <div class="profile-avatar">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
+                <div class="profile-name-block">
+                    <h2>{{ $user->name }}</h2>
+                    <span class="badge-peran">{{ $user->jabatan ?? '-' }}</span>
+                    <div class="profile-email"><i class="fas fa-envelope"></i> {{ $user->email }}</div>
+                </div>
             </div>
             <a href="{{ route('peminjam.profil.password.edit') }}" class="btn-primary">Ubah Password</a>
-        </div>
-
-        <div class="profile-fields">
-            <div class="field-card">
-                <h4>Nama</h4>
-                <p><strong>{{ $user->name }}</strong></p>
-            </div>
-            <div class="field-card">
-                <h4>Peran</h4>
-                <p><strong>{{ $user->jabatan ?? '-' }}</strong></p>
-            </div>
-            <div class="field-card">
-                <h4>Email</h4>
-                <p><strong>{{ $user->email }}</strong></p>
-            </div>
         </div>
     </div>
 </div>

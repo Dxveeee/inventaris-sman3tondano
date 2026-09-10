@@ -55,14 +55,35 @@
         .topbar-title h1 { font-size: 20px; font-weight: 700; color: var(--text); }
         .topbar-title p { font-size: 13px; color: var(--muted); margin-top: 2px; }
         .topbar-date { font-size: 12.5px; color: var(--muted); background: var(--card); padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); }
-        .profile-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 1px 8px rgba(26,79,138,.07); padding: 28px; max-width: 700px; }
+        .profile-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 1px 8px rgba(26,79,138,.07); padding: 28px; max-width: 1300px; }
         .profile-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
         .profile-title { font-size: 18px; font-weight: 700; color: var(--text); }
         .profile-subtitle { color: var(--muted); font-size: 13px; line-height: 1.6; }
+        .profile-hero { display: flex; align-items: center; gap: 20px; }
+        .profile-avatar {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: var(--primary); flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 700; color: #fff;
+        }
+        .profile-name-block h2 {
+            font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 8px;
+        }
+        .security-badge {
+            display: inline-block; padding: 4px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+            background: rgba(255,152,0,.1); color: var(--accent);
+        }
+        .security-note {
+            font-size: 13px; color: var(--muted);
+            display: flex; align-items: center; gap: 6px; margin-top: 8px;
+        }
+        .password-form { max-width: 700px; }
         .field-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
         .field-card h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
         .field-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
         .btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; background: var(--accent); color: #fff; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 700; border: none; cursor: pointer; }
+        .btn-primary:hover { background: #f57c00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,152,0,.3); }
         .btn-secondary { display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; background-color: var(--primary); color: #fff; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 700; border: 1px solid var(--border); cursor: pointer; }
         .form-group { margin-bottom: 18px; }
         label { display: block; font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
@@ -262,9 +283,13 @@
 
     <div class="profile-card">
         <div class="profile-header">
-            <div>
-                <div class="profile-title">Ubah Password</div>
-                <div class="profile-subtitle">Masukkan password saat ini dan password baru.</div>
+            <div class="profile-hero">
+                <div class="profile-avatar"><i class="fas fa-lock"></i></div>
+                <div class="profile-name-block">
+                    <h2>Keamanan Akun</h2>
+                    <span class="security-badge">Password</span>
+                    <div class="security-note"><i class="fas fa-shield-halved"></i> Perbarui password untuk menjaga akun tetap aman.</div>
+                </div>
             </div>
             <a href="{{ route('peminjam.profil') }}" class="btn-secondary">Kembali</a>
         </div>
@@ -277,7 +302,7 @@
             <div class="alert alert-danger">Silakan perbaiki kesalahan berikut.</div>
         @endif
 
-        <form method="POST" action="{{ route('peminjam.profil.password.update') }}">
+        <form method="POST" action="{{ route('peminjam.profil.password.update') }}" class="password-form">
             @csrf
 
             <div class="form-group">

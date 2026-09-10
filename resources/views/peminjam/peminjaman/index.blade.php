@@ -220,6 +220,11 @@
             white-space: normal;
         }
 
+        .table-card th:nth-child(4),
+        .table-card td:nth-child(4) {
+            white-space: nowrap;
+        }
+
         .btn {
             border: none;
             border-radius: 10px;
@@ -489,9 +494,9 @@
                             </div>
                         </td>
                         <td>{{ $r->jumlah_pinjam }}</td>
-                        <td><strong>{{ optional($r->tanggal_pengajuan)->format('d/m/Y') }}</strong></td>
-                        <td><strong>{{ optional($r->tanggal_pinjam_rencana)->locale('id')->isoFormat('D MMMM Y') ?? '-' }}</strong></td>
-                        <td><strong>{{ optional($r->tanggal_kembali_rencana)->format('d/m/Y') }}</strong></td>
+                        <td><strong>{{ optional($r->tanggal_pengajuan)->format('d-m-Y') }}</strong></td>
+                        <td><strong>{{ optional($r->tanggal_pinjam_rencana)->format('d-m-Y') ?? '-' }}</strong></td>
+                        <td><strong>{{ optional($r->tanggal_kembali_rencana)->format('d-m-Y') }}</strong></td>
                         <td>
                             @php
                                 $statusClass = 'badge-menunggu';
