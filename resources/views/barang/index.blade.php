@@ -1500,15 +1500,33 @@
                         margin-bottom: 12px;
                     }
 
+                    .label-brand {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 7px;
+                    }
+
+                    .label-logo {
+                        width: 30px;
+                        height: 30px;
+                        object-fit: contain;
+                        flex-shrink: 0;
+                    }
+
+                    .label-brand-text {
+                        text-align: left;
+                    }
+
                     h1 {
-                        font-size: 11px;
+                        font-size: 9px;
                         font-weight: 700;
                         color: #263238;
                         margin-bottom: 2px;
                     }
 
                     h2 {
-                        font-size: 9px;
+                        font-size: 8px;
                         font-weight: 400;
                         color: #546e7a;
                     }
@@ -1561,8 +1579,13 @@
             <body>
                 <div class="label-card">
                     <div class="label-header">
-                        <h1>SMA NEGERI 3 TONDANO</h1>
-                        <h2>Sistem Informasi Inventaris</h2>
+                        <div class="label-brand">
+                            <img class="label-logo" src="{{ asset('images/logo-sekolah.png') }}" alt="Logo sekolah">
+                            <div class="label-brand-text">
+                                <h1>SMA NEGERI 3 TONDANO</h1>
+                                <h2>Sistem Informasi Inventaris</h2>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="qr-wrapper">
