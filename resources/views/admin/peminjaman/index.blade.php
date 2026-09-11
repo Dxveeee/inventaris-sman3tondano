@@ -656,9 +656,9 @@
                                             </div>
                                         </td>
                                         <td>{{ $record->jumlah_pinjam }}</td>
-                                        <td><strong>{{ optional($record->tanggal_pengajuan)->format('d/m/Y') ?? '-' }}</strong></td>
-                                        <td><strong>{{ optional($record->tanggal_pinjam_rencana)->locale('id')->isoFormat('D MMMM Y') ?? '-' }}</strong></td>
-                                        <td><strong>{{ optional($record->tanggal_kembali_rencana)->format('d/m/Y') ?? '-' }}</strong></td>
+                                        <td><strong>{{ optional($record->tanggal_pengajuan)->format('d-m-Y') ?? '-' }}</strong></td>
+                                        <td><strong>{{ optional($record->tanggal_pinjam_rencana)->format('d-m-Y') ?? '-' }}</strong></td>
+                                        <td><strong>{{ optional($record->tanggal_kembali_rencana)->format('d-m-Y') ?? '-' }}</strong></td>
                                         <td>{{ $record->keterangan ?? '-' }}</td>
                                         <td>
                                             @php
@@ -756,16 +756,16 @@
                                                     <i class="fas fa-boxes"></i>
                                                     Unit yang dipilih ({{ $record->detail->count() }} unit)
                                                 </div>
-                                                <div style="display:flex;flex-wrap:wrap;gap:10px;">
-                                                    @foreach($record->detail as $detail)
-                                                        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 10px 6px 6px;">
+                                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                                    @foreach($record->detail as $i => $detail)
+                                                        <div class="unit-row-{{ $record->id }} {{ $i > 0 ? 'unit-row-extra' : '' }}" style="display:{{ $i > 0 ? 'none' : 'flex' }};align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
                                                             @if($detail->barang && $detail->barang->foto)
                                                                 <img src="{{ asset('storage/' . $detail->barang->foto) }}"
                                                                      alt="Foto Unit"
-                                                                     style="width:32px;height:32px;object-fit:cover;border-radius:6px;">
+                                                                     style="width:64px;height:64px;object-fit:cover;border-radius:6px;">
                                                             @else
-                                                                <div style="width:32px;height:32px;border-radius:6px;background:#eef3f7;display:flex;align-items:center;justify-content:center;color:var(--muted);">
-                                                                    <i class="fas fa-image" style="font-size:11px;"></i>
+                                                                <div style="width:64px;height:64px;border-radius:6px;background:#eef3f7;display:flex;align-items:center;justify-content:center;color:var(--muted);">
+                                                                    <i class="fas fa-image" style="font-size:20px;"></i>
                                                                 </div>
                                                             @endif
                                                             <div>
@@ -781,6 +781,11 @@
                                                         </div>
                                                     @endforeach
                                                 </div>
+                                                @if($record->detail->count() > 1)
+                                                    <button type="button" onclick="toggleUnitList(this, '{{ $record->id }}')" style="margin-top:8px;background:none;border:none;color:var(--info);font-size:12px;font-weight:600;cursor:pointer;padding:4px 0;">
+                                                        Lihat {{ $record->detail->count() - 1 }} unit lainnya <i class="fas fa-chevron-down"></i>
+                                                    </button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endif
@@ -792,5 +797,18 @@
             </div>
         </div>
     </main>
+
+    <script>
+        function toggleUnitList(btn, id) {
+            const extras = document.querySelectorAll('.unit-row-' + id + '.unit-row-extra');
+            if (extras.length === 0) return;
+            const isHidden = extras[0].style.display === 'none';
+            extras.forEach(el => el.style.display = isHidden ? 'flex' : 'none');
+            const count = extras.length;
+            btn.innerHTML = isHidden
+                ? 'Sembunyikan <i class="fas fa-chevron-up"></i>'
+                : 'Lihat ' + count + ' unit lainnya <i class="fas fa-chevron-down"></i>';
+        }
+    </script>
 </body>
 </html>

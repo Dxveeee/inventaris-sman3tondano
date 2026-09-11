@@ -558,16 +558,16 @@
                                     <i class="fas fa-boxes"></i>
                                     Unit yang dipinjam ({{ $r->detail->count() }} unit)
                                 </div>
-                                <div style="display:flex;flex-wrap:wrap;gap:10px;">
-                                    @foreach($r->detail as $detail)
-                                        <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
+                                <div style="display:flex;flex-direction:column;gap:8px;">
+                                    @foreach($r->detail as $i => $detail)
+                                        <div class="unit-row-{{ $r->id }} {{ $i > 0 ? 'unit-row-extra' : '' }}" style="display:{{ $i > 0 ? 'none' : 'flex' }};align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px;">
                                             @if($detail->barang && $detail->barang->foto)
                                                 <img src="{{ asset('storage/' . $detail->barang->foto) }}"
                                                      alt="Foto Unit"
-                                                     style="width:42px;height:42px;object-fit:cover;border-radius:6px;">
+                                                     style="width:64px;height:64px;object-fit:cover;border-radius:6px;">
                                             @else
-                                                <div style="width:42px;height:42px;border-radius:6px;background:#eef3f7;display:flex;align-items:center;justify-content:center;color:var(--muted);">
-                                                    <i class="fas fa-image" style="font-size:14px;"></i>
+                                                <div style="width:64px;height:64px;border-radius:6px;background:#eef3f7;display:flex;align-items:center;justify-content:center;color:var(--muted);">
+                                                    <i class="fas fa-image" style="font-size:20px;"></i>
                                                 </div>
                                             @endif
                                             <div>
@@ -583,6 +583,11 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                @if($r->detail->count() > 1)
+                                    <button type="button" onclick="toggleUnitList(this, '{{ $r->id }}')" style="margin-top:8px;background:none;border:none;color:var(--info);font-size:12px;font-weight:600;cursor:pointer;padding:4px 0;">
+                                        Lihat {{ $r->detail->count() - 1 }} unit lainnya <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @endif
@@ -612,6 +617,17 @@
         sidebar?.classList.remove('active');
         overlay?.classList.remove('active');
         document.body.style.overflow = '';
+    }
+
+    function toggleUnitList(btn, id) {
+        const extras = document.querySelectorAll('.unit-row-' + id + '.unit-row-extra');
+        if (extras.length === 0) return;
+        const isHidden = extras[0].style.display === 'none';
+        extras.forEach(el => el.style.display = isHidden ? 'flex' : 'none');
+        const count = extras.length;
+        btn.innerHTML = isHidden
+            ? 'Sembunyikan <i class="fas fa-chevron-up"></i>'
+            : 'Lihat ' + count + ' unit lainnya <i class="fas fa-chevron-down"></i>';
     }
 
     hamburgerBtn?.addEventListener('click', openSidebar);
