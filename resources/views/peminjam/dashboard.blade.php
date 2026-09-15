@@ -289,12 +289,14 @@
         }
 
         .active-banner {
-            background: linear-gradient(135deg, var(--primary-d) 0%, #000000 80%);
+            background:
+                radial-gradient(circle at 92% 8%, rgba(255,152,0,.24), transparent 28%),
+                linear-gradient(135deg, #37474f 0%, #263238 48%, #11191d 100%);
             border-radius: 14px;
             padding: 20px 24px;
             margin-bottom: 20px;
             color: #fff;
-            box-shadow: 0 4px 20px rgba(26,79,138,.18);
+            box-shadow: 0 10px 24px rgba(38,50,56,.2), inset 0 1px 0 rgba(255,255,255,.1);
             position: relative;
             overflow: hidden;
         }
@@ -302,18 +304,41 @@
         .active-banner::before {
             content: '';
             position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 180px;
-            height: 180px;
+            top: -72px;
+            right: 30px;
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
-            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 0 0 18px rgba(255,255,255,.025), 0 0 0 36px rgba(255,255,255,.018);
+        }
+
+        .active-banner::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffb52e, #ff7800);
+            box-shadow: 4px 0 18px rgba(255,152,0,.22);
         }
 
         .active-banner h2 {
             font-size: 17px;
             font-weight: 700;
             margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .active-banner h2::before {
+            content: '\f0f3';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #ffb52e;
+            font-size: 14px;
+            margin-right: 9px;
         }
 
         .active-banner p {
@@ -321,6 +346,8 @@
             color: rgba(255,255,255,.75);
             line-height: 1.6;
             max-width: 740px;
+            position: relative;
+            z-index: 1;
         }
 
         .active-banner ul {
@@ -329,6 +356,8 @@
             list-style: none;
             display: grid;
             gap: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .active-banner li {
@@ -337,16 +366,33 @@
             justify-content: space-between;
             align-items: center;
             gap: 12px;
-            background: rgba(255,255,255,.08);
-            border: 1px solid rgba(255,255,255,.14);
-            border-radius: 12px;
+            background: linear-gradient(105deg, rgba(255,255,255,.14), rgba(255,255,255,.055));
+            border: 1px solid rgba(255,255,255,.18);
+            border-radius: 10px;
             padding: 14px 16px;
             line-height: 1.5;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 5px 12px rgba(0,0,0,.12);
+            transition: transform .18s ease, background .18s ease, border-color .18s ease;
+        }
+
+        .active-banner li:hover {
+            background: linear-gradient(105deg, rgba(255,255,255,.19), rgba(255,255,255,.075));
+            border-color: rgba(255,181,46,.42);
+            transform: translateY(-2px);
         }
 
         .active-banner li .item-info {
             min-width: 0;
             flex: 1 1 auto;
+        }
+
+        .active-banner .item-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            min-width: 0;
+            margin-bottom: 4px;
         }
 
         .active-banner li strong {
@@ -356,20 +402,52 @@
             line-height: 1.3;
         }
 
+        .active-banner .item-heading > strong {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0;
+        }
+
+        .active-banner .return-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            padding: 5px 9px;
+            border: 1px solid rgba(255,181,46,.4);
+            border-radius: 7px;
+            background: rgba(255,152,0,.14);
+            color: #ffd27a;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .active-banner .return-date i {
+            color: #ffb52e;
+        }
+
         .active-banner li .meta {
             font-size: 12px;
             color: rgba(255,255,255,.78);
         }
 
         .active-banner li .status-badge {
-            background: rgba(255,255,255,.16);
+            background: rgba(255,255,255,.14);
             color: #fff;
             padding: 7px 12px;
             border-radius: 999px;
             font-size: 11px;
             font-weight: 700;
             white-space: nowrap;
+            border: 1px solid rgba(255,255,255,.22);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
         }
+
+        .active-banner li .status-badge.badge-danger { background: rgba(244,67,54,.86); border-color: rgba(255,180,170,.45); }
+        .active-banner li .status-badge.badge-warning { background: rgba(255,152,0,.9); border-color: rgba(255,220,150,.5); }
+        .active-banner li .status-badge.badge-success { background: rgba(76,175,80,.86); border-color: rgba(180,240,185,.45); }
 
         /* TABLE */
         .table-card {
@@ -633,6 +711,16 @@
             .table-card table {
                 min-width: 950px;
             }
+
+            .active-banner .item-heading {
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .active-banner .return-date {
+                font-size: 10px;
+                padding: 4px 7px;
+            }
         }
     </style>
 </head>
@@ -722,13 +810,21 @@
                 @foreach($active as $a)
                     <li>
                         <div class="item-info">
-                            <strong>{{ $a->nama_barang ?? ($a->barang->nama_barang ?? '-') }}</strong>
+                            <div class="item-heading">
+                                <strong>{{ $a->nama_barang ?? ($a->barang->nama_barang ?? '-') }}</strong>
+                            </div>
                             <div class="meta">
                                 {{ $a->jumlah_pinjam }} {{ $a->detail->first()->barang->satuan ?? '-' }}
-                                <br> Lokasi : <strong>{{ $a->lokasi->nama ?? 'Lokasi tidak tersedia' }}</strong>
-                                <br> Tanggal Rencana Pengembalian : <strong>{{ $a->tanggal_kembali_rencana->format('d-m-Y') }}</strong>
+                                <br> Lokasi Penyimpanan : <strong>{{ $a->lokasi->nama ?? 'Lokasi tidak tersedia' }}</strong>
                             </div>
                         </div>
+                        <span class="return-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <p>
+                                Tanggal Jatuh Tempo:
+                            </p>
+                            {{ $a->tanggal_kembali_rencana->format('d-m-Y') }}
+                        </span>
                         <span class="status-badge {{ $a->due_status === 'Terlambat' ? 'badge-danger' : ($a->due_status === 'Segera Kembali' ? 'badge-warning' : 'badge-success') }}">{{ $a->due_status }}</span>
                     </li>
                 @endforeach
