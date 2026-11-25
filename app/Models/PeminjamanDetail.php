@@ -16,17 +16,11 @@ class PeminjamanDetail extends Model
         'status_unit',
     ];
 
-    /**
-     * The peminjaman this detail belongs to.
-     */
     public function peminjaman(): BelongsTo
     {
         return $this->belongsTo(Peminjaman::class, 'id_peminjaman');
     }
 
-    /**
-     * The barang (unit) for this detail.
-     */
     public function barang(): BelongsTo
     {
         return $this->belongsTo(Barang::class, 'id_barang');

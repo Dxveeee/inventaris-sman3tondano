@@ -30,23 +30,15 @@ class Barang extends Model
         'foto',
     ];
 
-    // Relasi ke Kategori
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
 
-    // Relasi ke Lokasi
     public function lokasi()
     {
         return $this->belongsTo(Lokasi::class, 'id_lokasi');
     }
-
-    // // Relasi ke Peminjaman
-    // public function peminjaman()
-    // {
-    //     return $this->hasMany(Peminjaman::class, 'id_barang');
-    // }
 
     public static function generateKode(Kategori $kategori)
     {
