@@ -282,6 +282,26 @@
             from { opacity: 0; transform: translateY(30px); }
             to   { opacity: 1; transform: translateY(0); }
         }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .card-footer a,
+            .wrapper > a {
+                min-height: 44px;
+            }
+
+            .card-footer a {
+                display: inline-flex;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>

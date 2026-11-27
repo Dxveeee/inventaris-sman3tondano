@@ -115,19 +115,31 @@
         .sidebar-overlay.active { display: block; opacity: 1; }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body { display: block; overflow-x: hidden; }
             .mobile-topbar { display: flex; }
-            .sidebar { transform: translateX(-100%); transition: transform 0.28s ease; z-index: 200; width: min(82vw, 280px); box-shadow: 8px 0 30px rgba(0,0,0,.28); }
+            .hamburger-btn { width: 44px; height: 44px; }
+            .sidebar { transform: translateX(-100%); transition: transform 0.28s ease; z-index: 200; width: min(82vw, 280px); height: 100vh; height: 100dvh; min-height: 0; box-shadow: 8px 0 30px rgba(0,0,0,.28); }
             .sidebar.active { transform: translateX(0); }
-            .sidebar-close-btn { display: flex; }
+            .sidebar-close-btn { display: flex; width: 44px; height: 44px; }
+            .sidebar-overlay { height: 100vh; height: 100dvh; }
+            .nav-item { min-height: 44px; }
+            .btn-logout { min-height: 44px; }
             .main { padding: 16px 14px 32px; margin-left: 0; }
             .topbar { flex-direction: row; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
-            .topbar-date { align-self: flex-end; width: 25%; text-align: center; }
+            .topbar-date { align-self: flex-end; width: auto; max-width: 55%; text-align: center; white-space: nowrap; font-size: 11px; padding: 7px 8px; }
             .content-header { flex-direction: column; align-items: stretch; gap: 10px; }
             .stats-wrapper { grid-template-columns: 1fr; gap: 12px; }
             .table-wrapper { min-width: auto; overflow-x: auto; }
             table { min-width: 720px; font-size: 12px; }
-            .btn { width: 100%; justify-content: center; }
+            .detail-list li { min-width: 0; }
+            .detail-value { min-width: 0; overflow-wrap: anywhere; }
+            .form-group input, .form-group textarea, .form-group select { min-height: 44px; font-size: 16px; }
+            .btn { width: 100%; min-height: 44px; justify-content: center; }
+            @supports (-webkit-touch-callout: none) {
+                #tanggal_kembali_aktual { width: 100%; min-width: 0; max-width: 100%; }
+            }
         }
     </style>
 </head>

@@ -166,6 +166,8 @@
         }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body {
                 display: block;
                 overflow-x: hidden;
@@ -181,8 +183,8 @@
             }
 
             .hamburger-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 10px;
                 background: rgba(255,255,255,.12);
                 box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -205,6 +207,9 @@
                 transition: transform 0.28s ease;
                 z-index: 200;
                 width: min(82vw, 280px);
+                height: 100vh;
+                height: 100dvh;
+                min-height: 0;
                 box-shadow: 8px 0 30px rgba(0,0,0,.28);
             }
 
@@ -212,12 +217,17 @@
                 transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                height: 100vh;
+                height: 100dvh;
+            }
+
             .sidebar-close-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 44px;
+                height: 44px;
                 border-radius: 8px;
                 background: rgba(255,255,255,.06);
             }
@@ -229,12 +239,18 @@
 
             .sidebar-nav {
                 padding: 10px 0 14px;
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
             }
 
             .nav-item {
                 padding: 11px 16px;
                 font-size: 13px;
+                min-height: 44px;
             }
+
+            .btn-logout { min-height: 44px; }
 
             .main {
                 margin-left: 0;
@@ -242,16 +258,81 @@
             }
 
             .topbar {
-                flex-direction: row
+                flex-direction: row;
                 align-items: flex-start;
                 gap: 10px;
                 margin-bottom: 16px;
             }
 
+            .topbar-title {
+                min-width: 0;
+                flex: 1;
+            }
+
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: normal;
+                overflow-wrap: anywhere;
+                font-size: 11px;
+                padding: 7px 8px;
+            }
+
+            .profile-card {
+                padding: 18px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+            }
+
+            .profile-hero {
+                min-width: 0;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .profile-name-block {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .profile-name-block h2 {
+                font-size: 18px;
+                overflow-wrap: anywhere;
+            }
+
+            .security-note {
+                min-width: 0;
+                align-items: flex-start;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .btn-secondary,
+            .password-form .btn-primary {
+                min-height: 44px;
+            }
+
+            .btn-secondary {
+                align-self: flex-start;
+            }
+
+            .password-form {
+                width: 100%;
+            }
+
+            .password-form input {
+                min-height: 44px;
+                font-size: 16px;
+            }
+
+            .password-form .btn-primary {
+                width: 100%;
             }
         }
     </style>

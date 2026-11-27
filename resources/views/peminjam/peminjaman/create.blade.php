@@ -58,7 +58,7 @@
         .content-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 1px 8px rgba(26,79,138,.07); padding: 24px; max-width: 100%; margin-bottom: 20px; }
         .section-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
         .section-text { color: var(--muted); font-size: 13px; margin-bottom: 22px; line-height: 1.7; }
-        .info-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 16px; margin-bottom: 26px; }
+        .info-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; margin-bottom: 26px; }
         .info-card { background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
         .info-card h4 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
         .info-card p { font-size: 13px; color: #000000; line-height: 1.6; margin-bottom: 6px; }
@@ -79,6 +79,23 @@
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: 600; color: #fff; }
         .status-badge.tersedia { background: var(--info); }
         .status-badge.dipinjam { background: var(--warning); }
+
+        @media (min-width: 769px) {
+            .info-grid .info-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-grid .info-card h4,
+            .info-grid .info-card p {
+                width: fit-content;
+                max-width: 100%;
+                align-self: center;
+                text-align: left;
+                overflow-wrap: anywhere;
+            }
+        }
 
         .mobile-topbar {
             display: none;
@@ -152,6 +169,8 @@
         }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body {
                 display: block;
                 overflow-x: hidden;
@@ -167,8 +186,8 @@
             }
 
             .hamburger-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 10px;
                 background: rgba(255,255,255,.12);
                 box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -191,6 +210,9 @@
                 transition: transform 0.28s ease;
                 z-index: 200;
                 width: min(82vw, 280px);
+                height: 100vh;
+                height: 100dvh;
+                min-height: 0;
                 box-shadow: 8px 0 30px rgba(0,0,0,.28);
             }
 
@@ -198,12 +220,17 @@
                 transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                height: 100vh;
+                height: 100dvh;
+            }
+
             .sidebar-close-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 44px;
+                height: 44px;
                 border-radius: 8px;
                 background: rgba(255,255,255,.06);
             }
@@ -215,12 +242,18 @@
 
             .sidebar-nav {
                 padding: 10px 0 14px;
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
             }
 
             .nav-item {
                 padding: 11px 16px;
                 font-size: 13px;
+                min-height: 44px;
             }
+
+            .btn-logout { min-height: 44px; }
 
             .main {
                 margin-left: 0;
@@ -236,14 +269,39 @@
 
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
 
+            .content-card { padding: 16px; }
+            .content-card > .info-card table { table-layout: fixed; }
+            .content-card > .info-card td { padding: 8px; overflow-wrap: anywhere; }
+            .content-card > .info-card td[style*="width: 180px"] { width: 38% !important; }
+
             .info-grid {
-                grid-template-columns: repeat(2, minmax(0,1fr));
+                grid-template-columns: minmax(0, 1fr);
                 gap: 12px;
             }
+
+            .info-grid .info-card { min-width: 0; padding: 16px; overflow-wrap: anywhere; }
+            .info-grid .info-card img,
+            .info-grid .info-card > div[style*="width:170px"] {
+                width: 100% !important;
+                max-width: 170px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .info-grid .info-card img { display: block; }
+            .info-grid .info-card h4,
+            .info-grid .info-card p { text-align: center; }
+            .date-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+            .form-control { min-height: 44px; font-size: 16px; }
+            .button-group { flex-direction: column; align-items: stretch; }
+            .button-group .btn-secondary, .button-group .btn-submit { width: 100%; min-height: 44px; justify-content: center; }
         }
     </style>
 </head>

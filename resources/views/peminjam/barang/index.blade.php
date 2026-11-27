@@ -59,22 +59,24 @@
         .section-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
         .section-text { color: var(--muted); font-size: 13px; margin-bottom: 22px; line-height: 1.7; }
         .location-grid {
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 18px;
-            justify-content: start; /* ← tambah ini */
+            justify-content: start;
         }
 
         .location-grid > * {
-            max-width: 200px; /* ← tambah ini, sesuaikan ukuran */
+            width: 100%;
+            min-width: 0;
+            max-width: none;
         }
-        .location-card { display: block; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; color: var(--text); text-decoration: none; transition: transform .18s, box-shadow .18s; }
+        .location-card { display: block; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 24px; color: var(--text); text-align: center; text-decoration: none; transition: transform .18s, box-shadow .18s; }
         .location-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,.08); }
         .location-card.disabled { pointer-events: none; opacity: .55; }
-        .location-icon { width: 46px; height: 46px; border-radius: 16px; background: rgba(255,152,0,.12); display: inline-flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 18px; }
+        .location-icon { width: 46px; height: 46px; border-radius: 16px; background: rgba(255,152,0,.12); display: flex; align-items: center; justify-content: center; color: var(--accent); margin: 0 auto 18px; }
         .location-icon i { font-size: 18px; }
         .location-name { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
-        .location-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .location-meta { display: flex; align-items: center; justify-content: center; gap: 12px; }
         .badge { display: inline-flex; align-items: center; justify-content: center; padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; background: var(--info); }
         .badge-info { background: var(--info); }
         .empty-state { padding: 22px; background: #f8fafc; border: 1px solid var(--border); border-radius: 14px; color: var(--muted); }
@@ -151,6 +153,8 @@
         }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body {
                 display: block;
                 overflow-x: hidden;
@@ -166,8 +170,8 @@
             }
 
             .hamburger-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 10px;
                 background: rgba(255,255,255,.12);
                 box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -190,6 +194,9 @@
                 transition: transform 0.28s ease;
                 z-index: 200;
                 width: min(82vw, 280px);
+                height: 100vh;
+                height: 100dvh;
+                min-height: 0;
                 box-shadow: 8px 0 30px rgba(0,0,0,.28);
             }
 
@@ -197,12 +204,17 @@
                 transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                height: 100vh;
+                height: 100dvh;
+            }
+
             .sidebar-close-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 44px;
+                height: 44px;
                 border-radius: 8px;
                 background: rgba(255,255,255,.06);
             }
@@ -214,12 +226,18 @@
 
             .sidebar-nav {
                 padding: 10px 0 14px;
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
             }
 
             .nav-item {
                 padding: 11px 16px;
                 font-size: 13px;
+                min-height: 44px;
             }
+
+            .btn-logout { min-height: 44px; }
 
             .main {
                 margin-left: 0;
@@ -235,9 +253,21 @@
 
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
+
+            .content-card { padding: 16px; }
+            .location-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .location-grid > * { width: 100%; min-width: 0; max-width: none; }
+            .location-card { padding: 16px; text-align: center; }
+            .location-icon { display: flex; margin-left: auto; margin-right: auto; }
+            .location-meta { justify-content: center; }
+            .location-name { overflow-wrap: anywhere; }
         }
     </style>
 </head>

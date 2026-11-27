@@ -5,8 +5,8 @@
             <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo">
         </div>
         <div class="sidebar-logo-text">
-            <span>SMA Negeri 3 Tondano</span>
-            <small>Sistem Informasi Inventaris</small>
+            <span>Sistem Informasi Inventaris</span>
+            <small>SMA Negeri 3 Tondano</small>
         </div>
         <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Tutup menu">
             <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

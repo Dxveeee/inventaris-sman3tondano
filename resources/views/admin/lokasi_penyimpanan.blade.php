@@ -523,11 +523,17 @@
         .sidebar-overlay.active { display: block; opacity: 1; }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body { display: block; overflow-x: hidden; }
             .mobile-topbar { display: flex; }
-            .sidebar { transform: translateX(-100%); transition: transform 0.28s ease; z-index: 200; width: min(82vw, 280px); box-shadow: 8px 0 30px rgba(0,0,0,.28); }
+            .hamburger-btn { width: 44px; height: 44px; }
+            .sidebar { transform: translateX(-100%); transition: transform 0.28s ease; z-index: 200; width: min(82vw, 280px); height: 100vh; height: 100dvh; min-height: 0; box-shadow: 8px 0 30px rgba(0,0,0,.28); }
             .sidebar.active { transform: translateX(0); }
-            .sidebar-close-btn { display: flex; }
+            .sidebar-close-btn { display: flex; width: 44px; height: 44px; }
+            .sidebar-overlay { height: 100vh; height: 100dvh; }
+            .nav-item { min-height: 44px; }
+            .btn-logout { min-height: 44px; }
             .main { margin-left: 0; padding: 16px 14px 32px; }
             .topbar {
                 flex-direction: row;
@@ -537,19 +543,38 @@
             }
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
             .content-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .btn {
                 width: 100%;
                 justify-content: center;
+                min-height: 44px;
             }
 
             .btn-cancel, .btn-primary {
                 width: auto;
             }
-            .modal-content { width: 95%; }
+            .action-cell { flex-direction: column; align-items: stretch; }
+            .action-cell form { width: 100%; }
+            .action-cell .btn { width: 100%; }
+            .modal { height: 100vh; height: 100dvh; align-items: flex-start; overflow-y: auto; padding: 16px 0; }
+            .modal-content { width: 92vw; max-height: 90vh; max-height: 90dvh; overflow-y: auto; padding: 20px; }
+            .modal-close { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; flex-shrink: 0; }
+            .form-group label { font-size: 14px; }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                font-size: 16px;
+                min-height: 44px;
+            }
+            .form-actions { flex-direction: column; align-items: stretch; }
+            .form-actions .btn { width: 100%; min-height: 44px; justify-content: center; }
             table { font-size: 12px; display: block; overflow-x: auto; white-space: nowrap; }
             th, td { padding: 8px 12px; }
         }

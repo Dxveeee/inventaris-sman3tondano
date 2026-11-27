@@ -100,6 +100,36 @@
         .item-meta span { display: flex; align-items: center; gap: 4px;  margin-bottom: 6px;}
         .item-meta .badge { font-size: 12px; padding: 4px 8px; }
 
+        @media (min-width: 769px) {
+            .unit-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
+
+            .unit-card {
+                min-width: 0;
+                align-items: center;
+                text-align: center;
+            }
+
+            .unit-info {
+                width: 100%;
+                justify-items: center;
+                text-align: center;
+            }
+
+            .item-meta {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .item-meta > span {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
         .mobile-topbar {
             display: none;
             align-items: center;
@@ -172,6 +202,8 @@
         }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body {
                 display: block;
                 overflow-x: hidden;
@@ -187,8 +219,8 @@
             }
 
             .hamburger-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 10px;
                 background: rgba(255,255,255,.12);
                 box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -211,6 +243,9 @@
                 transition: transform 0.28s ease;
                 z-index: 200;
                 width: min(82vw, 280px);
+                height: 100vh;
+                height: 100dvh;
+                min-height: 0;
                 box-shadow: 8px 0 30px rgba(0,0,0,.28);
             }
 
@@ -218,12 +253,17 @@
                 transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                height: 100vh;
+                height: 100dvh;
+            }
+
             .sidebar-close-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 44px;
+                height: 44px;
                 border-radius: 8px;
                 background: rgba(255,255,255,.06);
             }
@@ -235,12 +275,18 @@
 
             .sidebar-nav {
                 padding: 10px 0 14px;
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
             }
 
             .nav-item {
                 padding: 11px 16px;
                 font-size: 13px;
+                min-height: 44px;
             }
+
+            .btn-logout { min-height: 44px; }
 
             .main {
                 margin-left: 0;
@@ -256,19 +302,30 @@
 
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
 
+            .content-card { padding: 16px; }
+            .back-button { min-height: 44px; }
+
             .unit-grid {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10x;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 12px;
             }
 
             .unit-card {
-                width: calc(50% - 10px)/* Desktop: 4 card per baris (contoh) */
+                width: 100%;
+                min-width: 0;
             }
+            .unit-info strong,
+            .item-meta span { overflow-wrap: anywhere; }
+            .btn-submit { width: 100%; min-width: 0; min-height: 44px; }
         }
     </style>
 </head>

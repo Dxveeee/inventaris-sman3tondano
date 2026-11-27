@@ -62,16 +62,16 @@
         .breadcrumb a { color: var(--accent); text-decoration: none; }
         .breadcrumb span { color: var(--muted); }
         .back-button { display: inline-flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--primary-l); border-radius: 12px; color: #fff; text-decoration: none; font-size: 14px; margin-bottom: 18px; }
-        .item-icon { width: 46px; height: 46px; border-radius: 16px; background: rgba(255,152,0,.12); display: inline-flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 18px; font-size: 18px; }
+        .item-icon { width: 46px; height: 46px; border-radius: 16px; background: rgba(255,152,0,.12); display: flex; align-items: center; justify-content: center; color: var(--accent); margin: 0 auto 18px; font-size: 18px; }
         .item-grid {
             display: grid;
             gap: 18px;
-            grid-template-columns: repeat(auto-fill, 283px);
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             justify-content: start;
         }
-        .item-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 22px; transition: transform .18s, box-shadow .18s; text-decoration: none; color: var(--text); }
+        .item-card { min-width: 0; background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 22px; text-align: center; transition: transform .18s, box-shadow .18s; text-decoration: none; color: var(--text); }
         .item-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,.08); }
-        .item-title { font-size: 15px; font-weight: 700; }
+        .item-title { font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
         .item-meta { display: grid; gap: 10px; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
         .item-meta span { display: block; margin-top: 8px; }
         .item-meta .badge { display: inline-flex; align-items: center; justify-content: center; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; color: #fff; }
@@ -158,6 +158,8 @@
         }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body {
                 display: block;
                 overflow-x: hidden;
@@ -173,8 +175,8 @@
             }
 
             .hamburger-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 10px;
                 background: rgba(255,255,255,.12);
                 box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -197,6 +199,9 @@
                 transition: transform 0.28s ease;
                 z-index: 200;
                 width: min(82vw, 280px);
+                height: 100vh;
+                height: 100dvh;
+                min-height: 0;
                 box-shadow: 8px 0 30px rgba(0,0,0,.28);
             }
 
@@ -204,12 +209,17 @@
                 transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                height: 100vh;
+                height: 100dvh;
+            }
+
             .sidebar-close-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 44px;
+                height: 44px;
                 border-radius: 8px;
                 background: rgba(255,255,255,.06);
             }
@@ -221,12 +231,18 @@
 
             .sidebar-nav {
                 padding: 10px 0 14px;
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
             }
 
             .nav-item {
                 padding: 11px 16px;
                 font-size: 13px;
+                min-height: 44px;
             }
+
+            .btn-logout { min-height: 44px; }
 
             .main {
                 margin-left: 0;
@@ -242,14 +258,25 @@
 
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
 
+            .content-card { padding: 16px; }
+            .back-button { min-height: 44px; }
+
             .item-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
             }
+
+            .item-card { min-width: 0; padding: 16px; text-align: center; }
+            .item-icon { display: flex; margin-left: auto; margin-right: auto; }
+            .item-title { overflow-wrap: anywhere; }
         }
     </style>
 </head>

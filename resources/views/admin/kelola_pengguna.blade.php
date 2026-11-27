@@ -539,11 +539,17 @@
         .sidebar-overlay.active { display: block; opacity: 1; }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body { display: block; overflow-x: hidden; }
             .mobile-topbar { display: flex; }
-            .sidebar { transform: translateX(-100%); transition: transform 0.28s ease; z-index: 200; width: min(82vw, 280px); box-shadow: 8px 0 30px rgba(0,0,0,.28); }
+            .hamburger-btn { width: 44px; height: 44px; }
+            .sidebar { transform: translateX(-100%); transition: transform 0.28s ease; z-index: 200; width: min(82vw, 280px); height: 100vh; height: 100dvh; min-height: 0; box-shadow: 8px 0 30px rgba(0,0,0,.28); }
             .sidebar.active { transform: translateX(0); }
-            .sidebar-close-btn { display: flex; }
+            .sidebar-close-btn { display: flex; width: 44px; height: 44px; }
+            .sidebar-overlay { height: 100vh; height: 100dvh; }
+            .nav-item { min-height: 44px; }
+            .btn-logout { min-height: 44px; }
             .main { margin-left: 0; padding: 16px 14px 32px; }
             .topbar {
                 flex-direction: row;
@@ -553,20 +559,33 @@
             }
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
             .content-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .btn {
                 width: 100%;
+                min-height: 44px;
                 justify-content: center;
             }
 
             .btn-cancel, .btn-primary {
                 width: auto;
             }
-            table { font-size: 12px; display: block; overflow-x: auto; white-space: nowrap; }
+            .table-wrapper { overflow-x: auto; }
+            table { min-width: 640px; font-size: 12px; white-space: nowrap; }
             th, td { padding: 8px 12px; }
+            .btn-danger { min-height: 44px; }
+            .modal { height: 100vh; height: 100dvh; padding: 16px; overflow-y: auto; }
+            .modal-content { width: 92vw; max-height: 90vh; max-height: 90dvh; padding: 20px; overflow-y: auto; }
+            .modal-close { min-width: 44px; min-height: 44px; flex-shrink: 0; }
+            .form-group input, .form-group select { min-height: 44px; font-size: 16px; }
+            .form-actions { flex-direction: column; align-items: stretch; }
+            .form-actions .btn { width: 100%; min-height: 44px; }
         }
     </style>
 </head>

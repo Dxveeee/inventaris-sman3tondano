@@ -336,6 +336,8 @@
         .small-note { color: #6f7a86; font-size: 12px; margin-top: 4px; }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body {
                 display: block;
             }
@@ -350,8 +352,8 @@
             }
 
             .hamburger-btn {
-                width: 42px;
-                height: 42px;
+                width: 44px;
+                height: 44px;
                 border-radius: 10px;
                 background: rgba(255,255,255,.12);
                 box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
@@ -374,6 +376,9 @@
                 transition: transform 0.28s ease;
                 z-index: 200;
                 width: min(82vw, 280px);
+                height: 100vh;
+                height: 100dvh;
+                min-height: 0;
                 box-shadow: 8px 0 30px rgba(0,0,0,.28);
             }
 
@@ -381,12 +386,17 @@
                 transform: translateX(0);
             }
 
+            .sidebar-overlay {
+                height: 100vh;
+                height: 100dvh;
+            }
+
             .sidebar-close-btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 34px;
-                height: 34px;
+                width: 44px;
+                height: 44px;
                 border-radius: 8px;
                 background: rgba(255,255,255,.06);
             }
@@ -398,12 +408,18 @@
 
             .sidebar-nav {
                 padding: 10px 0 14px;
+                min-height: 0;
+                overflow-y: auto;
+                overscroll-behavior: contain;
             }
 
             .nav-item {
                 padding: 11px 16px;
                 font-size: 13px;
+                min-height: 44px;
             }
+
+            .btn-logout { min-height: 44px; }
 
             .main {
                 margin-left: 0;
@@ -419,8 +435,12 @@
 
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
 
             .table-card {
@@ -429,8 +449,43 @@
             }
 
             .table-card table {
-                min-width: 950px;
+                width: 1150px;
+                min-width: 1150px;
             }
+
+            .table-card th:nth-child(1),
+            .table-card td:nth-child(1):not([colspan]) { width: 50px !important; }
+            .table-card th:nth-child(2),
+            .table-card td:nth-child(2):not([colspan]) { width: 155px !important; }
+            .table-card th:nth-child(3),
+            .table-card td:nth-child(3):not([colspan]) { width: 70px !important; }
+            .table-card th:nth-child(4),
+            .table-card td:nth-child(4):not([colspan]) { width: 120px !important; }
+            .table-card th:nth-child(5),
+            .table-card td:nth-child(5):not([colspan]) { width: 120px !important; }
+            .table-card th:nth-child(6),
+            .table-card td:nth-child(6):not([colspan]) { width: 120px !important; }
+            .table-card th:nth-child(7),
+            .table-card td:nth-child(7):not([colspan]) { width: 100px !important; }
+            .table-card th:nth-child(8),
+            .table-card td:nth-child(8):not([colspan]) { width: 170px !important; }
+            .table-card th:nth-child(9),
+            .table-card td:nth-child(9):not([colspan]) { width: 245px !important; }
+
+            .table-card td[colspan="8"] > div:first-child {
+                font-size: 12px !important;
+            }
+
+            @supports (-webkit-touch-callout: none) {
+                .table-card td[colspan="8"] > div:first-child {
+                    -webkit-text-size-adjust: none;
+                    text-size-adjust: none;
+                }
+            }
+
+            .table-card .btn { min-height: 44px; }
+            .btn-file-input input[type="file"] { width: 100%; min-height: 44px; font-size: 14px; }
+            .table-card button[onclick^="toggleUnitList"] { min-height: 44px; }
         }
     </style>
 </head>

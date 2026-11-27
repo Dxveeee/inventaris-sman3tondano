@@ -261,6 +261,27 @@
             from { opacity: 0; transform: translateY(30px); }
             to   { opacity: 1; transform: translateY(0); }
         }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .card {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .form-group label {
+                font-size: 14px;
+            }
+
+            .card-footer a {
+                display: inline-flex;
+                align-items: center;
+                min-height: 44px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -274,6 +295,7 @@
     <div class="card">
         <div class="card-header">
             <h1>Buat Akun Baru</h1>
+            <p>Sistem Informasi Inventaris</p>
             <p>SMA Negeri 3 Tondano</p>
             <div class="divider"></div>
         </div>

@@ -628,20 +628,37 @@
         }
 
         @media (max-width: 768px) {
+            html:has(.sidebar.active),
+            body:has(.sidebar.active) { overflow: hidden; }
             body { display: block; overflow-x: hidden; }
             .mobile-topbar { display: flex; }
-            .sidebar { transform: translateX(-100%); width: min(82vw, 280px); box-shadow: 8px 0 30px rgba(0,0,0,.28); }
+            .hamburger-btn { width: 44px; height: 44px; }
+            .sidebar { transform: translateX(-100%); width: min(82vw, 280px); height: 100vh; height: 100dvh; min-height: 0; box-shadow: 8px 0 30px rgba(0,0,0,.28); }
             .sidebar.active { transform: translateX(0); }
-            .sidebar-close-btn { display: flex; }
+            .sidebar-close-btn { display: flex; width: 44px; height: 44px; }
+            .sidebar-overlay { height: 100vh; height: 100dvh; }
+            .nav-item { min-height: 44px; }
+            .btn-logout { min-height: 44px; }
             .main { margin-left: 0; padding: 16px 14px 32px; }
             .topbar { flex-direction: row; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
             .topbar-date {
                 align-self: flex-end;
-                width: 25%;
+                width: auto;
+                max-width: 55%;
                 text-align: center;
+                white-space: nowrap;
+                font-size: 11px;
+                padding: 7px 8px;
             }
-            .action-buttons { flex-direction: column; }
-            .btn { width: 30%; justify-content: center; }
+            .breadcrumb { flex-wrap: wrap; }
+            .breadcrumb > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+            .action-buttons { flex-direction: column; align-items: stretch; }
+            .action-buttons .btn { width: 100%; min-height: 44px; justify-content: center; }
+            .kondisi-form { flex-direction: column; align-items: stretch; }
+            .kondisi-select { width: 100%; min-width: 0; min-height: 44px; font-size: 16px; }
+            .kondisi-form .btn { width: 100%; min-height: 44px; justify-content: center; }
+            .spec-content { min-width: 0; }
+            .spec-value { overflow-wrap: anywhere; }
         }
     </style>
 </head>

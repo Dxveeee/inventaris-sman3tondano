@@ -177,6 +177,8 @@
                 width: 100%;
             }
             .modal-overlay {
+                height: 100vh;
+                height: 100dvh;
                 padding: 10px;
                 align-items: center;
                 justify-content: center;
@@ -185,6 +187,7 @@
                 width: min(92vw, 340px);
                 max-width: 340px;
                 max-height: 78vh;
+                max-height: 78dvh;
                 border-radius: 16px;
                 margin: 0 auto;
             }

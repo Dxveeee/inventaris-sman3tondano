@@ -597,6 +597,7 @@
 
             .hero {
                 padding: 0 20px;
+                background-attachment: scroll;
             }
 
             .hero-content {
@@ -615,12 +616,50 @@
                 grid-template-columns: 1fr;
             }
 
+            .inventory-stat-grid.three-col {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .inventory-stat-grid.three-col > .stat-card:last-child {
+                grid-column: 1 / -1;
+                width: calc((100% - 12px) / 2);
+                justify-self: center;
+            }
+
+            .inventory-stat-grid.two-col {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .stat-card {
+                min-width: 0;
+                padding: 16px 12px;
+            }
+
+            .stat-card.featured {
+                width: fit-content;
+                min-width: 180px;
+                max-width: 100%;
+            }
+
             .stats-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
+            .login-button,
+            .btn {
+                min-height: 44px;
+            }
+
+            .scroll-indicator {
+                min-width: 44px;
+                min-height: 44px;
+            }
+
             .timeline {
                 max-width: 100%;
+                padding: 0 12px;
             }
 
             .step {
@@ -643,8 +682,8 @@
             <a href="{{ route('landing') }}" class="brand">
                 <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah">
                 <div class="brand-text">
-                    <span class="brand-title">SMA Negeri 3 Tondano</span>
-                    <span class="brand-subtitle">Sistem Informasi Inventaris</span>
+                    <span class="brand-title">Sistem Informasi Inventaris</span>
+                    <span class="brand-subtitle">SMA Negeri 3 Tondano</span>
                 </div>
             </a>
         </div>
@@ -790,7 +829,7 @@
         <section id="info-peminjaman" class="section">
             <div class="section-header">
                 <div class="section-label">Peminjaman</div>
-                <h2 class="section-title">Cara Melakukan Peminjaman</h2>
+                <h2 class="section-title">Cara Melakukan Peminjaman Barang Inventaris Sekolah</h2>
                 <p class="section-description">Ikuti langkah-langkah berikut untuk meminjam barang inventaris sekolah</p>
             </div>
 
@@ -844,8 +883,8 @@
         <a href="{{ route('landing') }}" class="brand">
             <img src="{{ asset('images/logo-sekolah.png') }}" alt="Logo Sekolah">
             <div class="brand-text">
-                <span class="brand-title">SMA Negeri 3 Tondano</span>
-                <span class="brand-subtitle">Sistem Informasi Inventaris</span>
+                <span class="brand-title">Sistem Informasi Inventaris</span>
+                <span class="brand-subtitle">SMA Negeri 3 Tondano</span>
             </div>
         </a>
         <div class="footer-divider"></div>
